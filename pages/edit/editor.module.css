@@ -1,0 +1,121 @@
+.layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) auto;
+    overflow: hidden;
+}
+
+.sidebar {
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 1px solid var(--silver);
+}
+
+.project {
+    overflow: auto;
+}
+
+.project svg {
+    margin: 50%;
+}
+.sidebarButton {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid var(--light-grey);
+}
+
+.sidebarButtonNotSelected {
+    composes: sidebarButton;
+    cursor: pointer;
+}
+
+.sidebarButtonSelected {
+    background-color: var(--light-grey);
+}
+
+.glassTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.glassTable thead td {
+    font-size: 12px;
+    padding: 5px;
+}
+.center {
+    text-align: center;
+}
+
+.glass {
+    composes: sidebarButton;
+}
+
+.colorCell {
+    width: 35px;
+    margin: 5px;
+}
+
+.color {
+    border: 1px solid var(--dark-grey);
+    padding: 0;
+    height: 35px;
+    cursor: pointer;
+    display: block;
+}
+.noColor {
+    composes: color;
+}
+
+.glass .icon {
+    margin-left: 2px;
+    color: var(--light-grey);
+    text-align: center;
+}
+
+.glassSelected .icon {
+    color: white;
+}
+
+.glass .icon > i {
+    margin: 0;
+}
+
+.glass input[type='color'] {
+    height: 0;
+    width: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.glass .title {
+    display: block;
+    box-sizing: border-box;
+    resize: none;
+    padding: 0 1px;
+    margin: 3px 0 4px 0;
+    width: 100%;
+    min-width: 1px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    font-family: var(--body-font-family);
+    font-size: 14px;
+    flex: 1;
+}
+
+.glass .title:focus {
+    border: 1px solid silver;
+    background-color: white;
+}
+
+.glassNotSelected {
+    composes: glass sidebarButtonNotSelected;
+}
+.glassNotSelected > * > * {
+    pointer-events: none;
+}
+
+.glassSelected {
+    composes: glass sidebarButtonSelected;
+}

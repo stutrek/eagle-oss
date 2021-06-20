@@ -1,0 +1,52 @@
+.container {
+    --came-color: black;
+    background-color: var(--came-color);
+}
+
+.nonInteractive {
+    pointer-events: none;
+}
+
+.label {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.piece {
+    stroke: var(--came-color);
+    stroke-width: 1px;
+}
+
+.highlighted {
+    stroke-width: 8px;
+    stroke: white;
+    stroke-dasharray: 30;
+    animation: highlighted 1000ms linear 0ms infinite;
+}
+
+.altDown .piece {
+    cursor: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0' y='0' width='22' height='22' viewBox='0, 0, 22, 22'%3E%3Cg%3E%3Cpath d='M18.575,1 C19.22,1 19.818,1.252 20.274,1.707 C20.73,2.164 20.981,2.761 20.981,3.406 C20.981,4.05 20.73,4.648 20.274,5.104 L16.453,8.956 C16.736,9.443 16.657,10.057 16.249,10.465 L16.091,10.623 C15.856,10.858 15.525,10.984 15.195,10.984 C14.881,10.984 14.598,10.874 14.362,10.67 L4.865,20.167 C4.566,20.465 4.157,20.638 3.717,20.638 C3.434,20.638 3.167,20.56 2.931,20.434 L2.381,20.858 C2.271,20.953 2.113,21 1.956,21 C1.752,21 1.563,20.921 1.437,20.796 L1.217,20.575 C0.981,20.324 0.95,19.899 1.154,19.632 L1.563,19.082 C1.201,18.453 1.311,17.651 1.83,17.132 L11.343,7.619 C10.918,7.116 10.934,6.377 11.406,5.906 L11.563,5.748 C11.799,5.513 12.129,5.387 12.459,5.387 C12.679,5.387 12.884,5.434 13.072,5.544 L16.877,1.707 C17.333,1.252 17.931,1 18.576,1 z' fill='%23000000' stroke='%23FFFFFF' stroke-width='1'/%3E%3Cpath d='M4.425,19.711 L13.922,10.214 L11.783,8.06 L2.255,17.557 C1.94,17.871 1.878,18.358 2.098,18.752 C2.223,18.972 2.208,19.239 2.05,19.443 L1.642,19.994 C1.626,20.025 1.626,20.088 1.657,20.119 L1.893,20.355 C1.893,20.355 1.925,20.371 1.956,20.371 C1.972,20.371 2.003,20.355 2.003,20.355 L2.554,19.931 C2.664,19.852 2.789,19.805 2.931,19.805 C3.025,19.805 3.135,19.836 3.23,19.884 C3.371,19.962 3.544,20.009 3.717,20.009 C3.984,20.009 4.236,19.899 4.425,19.711 z' fill='%23FFFFFF'/%3E%3C/g%3E%3C/svg%3E%0A")
+            3 19,
+        pointer;
+}
+
+.emptySpace {
+    stroke: white;
+}
+
+.labelGroup {
+    pointer-events: none;
+}
+
+.piece:hover {
+    stroke: #acf;
+    stroke-width: 5px;
+}
+
+@keyframes highlighted {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 60;
+    }
+}

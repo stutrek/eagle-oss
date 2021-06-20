@@ -1,0 +1,16 @@
+.headerLayoutContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: grid;
+    grid-template-rows: 60px 1fr;
+}
+
+.content {
+    position: relative;
+}
+
+.footer {
+}
