@@ -8,16 +8,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "@techstark/opencv-js": "^4.5.2-release.1",
     "dexie": "^3.1.0-beta.13",
     "dexie-react-hooks": "^1.0.6",
+    "exif-js": "^2.3.0",
     "next": "^11.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-use": "^17.2.4",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
+    "threads": "^1.6.5",
     "tinycolor2": "^1.4.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "worker-plugin": "^5.0.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.11",
@@ -26,6 +30,7 @@
     "@typescript-eslint/parser": "^4.26.1",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "eslint": "^7.28.0",
+    "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
