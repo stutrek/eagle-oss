@@ -13,7 +13,7 @@ export const CanvasWithBitmap = ({ imageBitmap, style, className }: Props) => {
             const context = ref.current.getContext('2d');
             context?.drawImage(imageBitmap, 0, 0);
         }
-    });
+    }, [imageBitmap]);
 
     return (
         <canvas

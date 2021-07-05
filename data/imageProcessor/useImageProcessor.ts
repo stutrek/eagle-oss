@@ -1,6 +1,6 @@
 import { SyntheticEvent, useMemo, useState } from 'react';
-import exif from 'exif-js';
-import { createOpenCvWorker } from './openCvWorker';
+import { useOpenCvWorker } from './openCvWorker';
+import { useBitmapImport } from './useBitmapImport';
 
 interface DragEvent<T = Element> extends SyntheticEvent<T> {
     dataTransfer: DataTransfer;
@@ -9,35 +9,16 @@ interface DragEvent<T = Element> extends SyntheticEvent<T> {
 export const useImageProcessor = () => {
     const [file, setFile] = useState<File | undefined>(undefined);
     const [svgString, setSvgString] = useState<string | undefined>(undefined);
-    const [imageBitmap, setImageBitmap] = useState<ImageBitmap | undefined>(
-        undefined
-    );
-    const [resolution, setResolution] = useState<number | undefined>();
 
-    const openCvWorker = createOpenCvWorker();
+    const bitmapImport = useBitmapImport(file);
 
     const processFile = useMemo(
         () => async (file: File) => {
             setFile(file);
             if (file.type.includes('svg')) {
                 const text = await file.text();
-                setResolution(72);
                 setSvgString(text);
-            } else if (file.type.includes('image')) {
-                const buffer = await file.arrayBuffer();
-                const result = exif.readFromBinaryFile(buffer);
-                setResolution(result.XResolution || 72);
-                const imageBitmap = await createImageBitmap(file);
-                const imageBitmap2 = await createImageBitmap(file);
-
-                openCvWorker
-                    .adaptiveThreshold(imageBitmap2)
-                    .then((outBitmap) => {
-                        setImageBitmap(outBitmap);
-                    });
-
-                setImageBitmap(imageBitmap);
-            } else {
+            } else if (file.type.includes('image') === false) {
                 alert(
                     `This file couldn't be read because it's not an image file.`
                 );
@@ -75,9 +56,8 @@ export const useImageProcessor = () => {
         upload: {
             file,
             svgString,
-            imageBitmap,
-            resolution,
         },
+        bitmapImport,
         result: {
             pieces: undefined,
         },

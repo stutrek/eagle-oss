@@ -1,24 +1,35 @@
-import { ModuleThread, spawn, Transfer, Worker } from 'threads';
+import { useEffect, useMemo, useRef } from 'react';
+import { ModuleThread, spawn, Thread, Transfer, Worker } from 'threads';
 import { OpenCvWorkerType } from './worker';
 
-let workerPromise: Promise<ModuleThread<OpenCvWorkerType>>;
+export const useOpenCvWorker = () => {
+    let workerPromiseRef = useRef<Promise<ModuleThread<OpenCvWorkerType>>>();
 
-const startWorker = () => {
-    const workerPromise = spawn<OpenCvWorkerType>(
-        // @ts-ignore
-        new Worker(new URL('./worker.ts', import.meta.url))
-    );
-    return workerPromise;
-};
+    const worker = useMemo(() => {
+        const startWorker = () => {
+            workerPromiseRef.current = spawn<OpenCvWorkerType>(
+                // @ts-ignore
+                new Worker(new URL('./worker.ts', import.meta.url))
+            );
+            return workerPromiseRef.current;
+        };
 
-const workerProxy: OpenCvWorkerType = {
-    adaptiveThreshold: async (imageBitmap) => {
-        console.log({ workerPromise });
-        const worker = await startWorker();
-        return worker.adaptiveThreshold(Transfer(imageBitmap));
-    },
-};
+        const workerProxy: OpenCvWorkerType = {
+            adaptiveThreshold: async (imageBitmap) => {
+                const worker = await startWorker();
+                return worker.adaptiveThreshold(imageBitmap);
+            },
+        };
+        return workerProxy;
+    }, []);
 
-export const createOpenCvWorker = (): OpenCvWorkerType => {
-    return workerProxy;
+    useEffect(() => {
+        if (workerPromiseRef.current) {
+            workerPromiseRef.current.then((worker) => {
+                Thread.terminate(worker);
+            });
+        }
+    }, []);
+
+    return worker;
 };

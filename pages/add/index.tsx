@@ -16,13 +16,11 @@
 */
 
 import { UploadButton } from './components/UploadButton';
-import { CanvasWithBitmap } from './components/CanvasWithBitmap';
 import { useImageProcessor } from '../../data/imageProcessor/useImageProcessor';
+import { BitmapImport } from './components/BitmapImport';
 
 export default function AddPage() {
     const imageProcessor = useImageProcessor();
-
-    console.log(imageProcessor);
 
     if (imageProcessor.upload.file === undefined) {
         return <UploadButton listeners={imageProcessor.listeners} />;
@@ -30,11 +28,9 @@ export default function AddPage() {
 
     if (
         imageProcessor.result.pieces === undefined &&
-        imageProcessor.upload.imageBitmap
+        imageProcessor.bitmapImport.imageBitmap
     ) {
-        return (
-            <CanvasWithBitmap imageBitmap={imageProcessor.upload.imageBitmap} />
-        );
+        return <BitmapImport imageProcessor={imageProcessor} />;
     }
 
     if (

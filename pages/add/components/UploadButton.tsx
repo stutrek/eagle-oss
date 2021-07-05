@@ -1,4 +1,4 @@
-import { ImageProcessorReturn } from '../useImageProcessor';
+import { ImageProcessorReturn } from '../../../data/imageProcessor/useImageProcessor';
 import styles from './uploadButton.module.css';
 
 type Props = {
