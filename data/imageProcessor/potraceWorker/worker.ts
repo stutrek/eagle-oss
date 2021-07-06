@@ -11,30 +11,14 @@ async function traceImageBitmap(
     imageBitmap: ImageBitmap,
     params: potrace.Parameters
 ) {
-    const invertedCanvas = new OffscreenCanvas(
-        imageBitmap.width,
-        imageBitmap.height
-    );
-
-    const invertedCtx = invertedCanvas.getContext('2d');
-    if (!invertedCtx) {
-        throw new Error('no 2d');
-    }
-    invertedCtx.drawImage(imageBitmap, 0, 0);
-    invertedCtx.fillStyle = 'white';
-    invertedCtx.globalCompositeOperation = 'difference';
-    invertedCtx.fillRect(0, 0, imageBitmap.width, imageBitmap.height);
-
     potrace.clear();
     potrace.setParameter(params);
 
-    // potrace.setCanvas(invertedCanvas);
     potrace.loadImageBitmap(imageBitmap);
 
     return new Promise<string[]>((resolve) => {
         potrace.process(() => {
             const pathlist = potrace.getPathlist();
-            console.log({ pathlist });
             const totalArea = imageBitmap.width * imageBitmap.height;
             // if the first piece takes up 90% of the area, it's a sun catcher
             // and that piece is the outline on the paper
@@ -53,8 +37,8 @@ async function traceImageBitmap(
                     parentPath.addChild(compoundPath);
                     // parentPath.importSVG(`<path d="${path}" />`);
                 } else {
+                    // without reversing the points, the area is negative.
                     compoundPath.reverse();
-                    console.log(compoundPath);
                     if (compoundPath.area < maxArea) {
                         shapes.push(compoundPath);
                     }

@@ -11,7 +11,6 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
         imageProcessor.bitmapImport;
 
     const secondView = !paths && (outlineBitmap || stretchedBitmap);
-    console.log({ paths });
     return (
         <div>
             {imageBitmap && <ImageStretcher imageProcessor={imageProcessor} />}
