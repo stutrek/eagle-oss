@@ -7,10 +7,12 @@ export const useOpenCvWorker = () => {
 
     const worker = useMemo(() => {
         const startWorker = () => {
-            workerPromiseRef.current = spawn<OpenCvWorkerType>(
-                // @ts-ignore
-                new Worker(new URL('./worker.ts', import.meta.url))
-            );
+            if (!workerPromiseRef.current) {
+                workerPromiseRef.current = spawn<OpenCvWorkerType>(
+                    // @ts-ignore
+                    new Worker(new URL('./worker.ts', import.meta.url))
+                );
+            }
             return workerPromiseRef.current;
         };
 
@@ -18,6 +20,10 @@ export const useOpenCvWorker = () => {
             adaptiveThreshold: async (imageBitmap) => {
                 const worker = await startWorker();
                 return worker.adaptiveThreshold(imageBitmap);
+            },
+            distort: async (imageBitmap, newCorners) => {
+                const worker = await startWorker();
+                return worker.distort(imageBitmap, newCorners);
             },
         };
         return workerProxy;

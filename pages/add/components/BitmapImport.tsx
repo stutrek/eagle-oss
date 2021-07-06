@@ -1,5 +1,6 @@
 import { CanvasWithBitmap } from '../../../components/CanvasWithBitmap';
 import { ImageProcessorReturn } from '../../../data/imageProcessor/useImageProcessor';
+import { ImageStretcher } from './imageStretcher';
 
 type Props = {
     imageProcessor: ImageProcessorReturn;
@@ -12,7 +13,7 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
     const secondView = outlineBitmap || stretchedBitmap;
     return (
         <div>
-            {imageBitmap && <CanvasWithBitmap imageBitmap={imageBitmap} />}
+            {imageBitmap && <ImageStretcher imageProcessor={imageProcessor} />}
             {secondView && <CanvasWithBitmap imageBitmap={secondView} />}
         </div>
     );
