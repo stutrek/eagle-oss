@@ -7,14 +7,25 @@ type Props = {
 };
 
 export const BitmapImport = ({ imageProcessor }: Props) => {
-    const { imageBitmap, stretchedBitmap, outlineBitmap } =
+    const { imageBitmap, stretchedBitmap, outlineBitmap, paths } =
         imageProcessor.bitmapImport;
 
-    const secondView = outlineBitmap || stretchedBitmap;
+    const secondView = !paths && (outlineBitmap || stretchedBitmap);
+    console.log({ paths });
     return (
         <div>
             {imageBitmap && <ImageStretcher imageProcessor={imageProcessor} />}
             {secondView && <CanvasWithBitmap imageBitmap={secondView} />}
+            {paths && stretchedBitmap && (
+                <svg
+                    width={stretchedBitmap.width}
+                    height={stretchedBitmap.height}
+                >
+                    {paths.map((path) => (
+                        <path key={path} d={path} />
+                    ))}
+                </svg>
+            )}
         </div>
     );
 };

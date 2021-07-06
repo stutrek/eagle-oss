@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { ModuleThread, spawn, Thread, Worker } from 'threads';
-import { OpenCvWorkerType } from './worker';
+import { PotraceWorker } from './worker';
 
-export const useOpenCvWorker = () => {
-    let workerPromiseRef = useRef<Promise<ModuleThread<OpenCvWorkerType>>>();
+export const usePotraceWorker = () => {
+    let workerPromiseRef = useRef<Promise<ModuleThread<PotraceWorker>>>();
 
     const worker = useMemo(() => {
         const startWorker = () => {
             if (!workerPromiseRef.current) {
-                workerPromiseRef.current = spawn<OpenCvWorkerType>(
+                workerPromiseRef.current = spawn<PotraceWorker>(
                     // @ts-ignore
                     new Worker(new URL('./worker.ts', import.meta.url))
                 );
@@ -16,16 +16,13 @@ export const useOpenCvWorker = () => {
             return workerPromiseRef.current;
         };
 
-        const workerProxy: OpenCvWorkerType = {
-            adaptiveThreshold: async (imageBitmap) => {
+        const workerProxy: PotraceWorker = {
+            traceImageBitmap: async (imageBitmap, params) => {
                 const worker = await startWorker();
-                return worker.adaptiveThreshold(imageBitmap);
-            },
-            distort: async (imageBitmap, newCorners) => {
-                const worker = await startWorker();
-                return worker.distort(imageBitmap, newCorners);
+                return worker.traceImageBitmap(imageBitmap, params);
             },
         };
+
         return workerProxy;
     }, []);
 

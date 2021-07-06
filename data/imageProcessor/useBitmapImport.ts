@@ -3,6 +3,8 @@ import exif from 'exif-js';
 import { isEqual } from 'lodash';
 
 import { useOpenCvWorker } from './openCvWorker';
+import { usePotraceWorker } from './potraceWorker';
+import type Potrace from './potraceWorker/potrace';
 
 export type Point = [number, number];
 export type StretchOptions = {
@@ -17,6 +19,11 @@ const initialStretchOptions: StretchOptions = {
     topRight: [0, 0],
     bottomLeft: [0, 0],
     bottomRight: [0, 0],
+};
+
+const potaceParams: Potrace.Parameters = {
+    optcurve: true,
+    opttolerance: 0.01,
 };
 
 export const useBitmapImport = (file: File | undefined) => {
@@ -38,7 +45,10 @@ export const useBitmapImport = (file: File | undefined) => {
         initialStretchOptions
     );
 
+    const [paths, setPaths] = useState<string[] | undefined>();
+
     const openCvWorker = useOpenCvWorker();
+    const potraceWorker = usePotraceWorker();
 
     useEffect(
         function loadFile() {
@@ -106,12 +116,26 @@ export const useBitmapImport = (file: File | undefined) => {
         [stretchedBitmap]
     );
 
+    useEffect(
+        function potrace() {
+            if (outlineBitmap) {
+                potraceWorker
+                    .traceImageBitmap(outlineBitmap, potaceParams)
+                    .then((paths) => setPaths(paths));
+            } else {
+                setPaths(undefined);
+            }
+        },
+        [outlineBitmap]
+    );
+
     return {
         imageBitmap,
         stretchedBitmap,
         outlineBitmap,
         resolution,
         stretchOptions,
+        paths,
         setCorner(side: keyof StretchOptions, value: Point) {
             setStretchOptions({
                 ...stretchOptions,
