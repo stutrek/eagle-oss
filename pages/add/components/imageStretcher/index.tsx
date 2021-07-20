@@ -1,5 +1,10 @@
+import { useEffect, useState } from 'react';
 import { CanvasWithBitmap } from '../../../../components/CanvasWithBitmap';
 import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
+import {
+    Point,
+    UseImageBitmapReturn,
+} from '../../../../data/imageProcessor/useBitmapImport';
 
 import { Circle } from './circle';
 
@@ -13,6 +18,22 @@ export const ImageStretcher = ({ imageProcessor }: Props) => {
     const { imageBitmap, stretchOptions, setCorner } =
         imageProcessor.bitmapImport;
 
+    const [stretchState, setStretchState] = useState(stretchOptions);
+
+    useEffect(() => {
+        setStretchState(stretchOptions);
+    }, [stretchOptions]);
+
+    const setInterimCorner: UseImageBitmapReturn['setCorner'] = (
+        side,
+        value
+    ) => {
+        setStretchState({
+            ...stretchState,
+            [side]: value,
+        });
+    };
+
     if (!imageBitmap) {
         return <div />;
     }
@@ -23,10 +44,10 @@ export const ImageStretcher = ({ imageProcessor }: Props) => {
             <svg width={imageBitmap.width} height={imageBitmap.height}>
                 <polyline
                     points={[
-                        stretchOptions.topLeft,
-                        stretchOptions.topRight,
-                        stretchOptions.bottomRight,
-                        stretchOptions.bottomLeft,
+                        stretchState.topLeft,
+                        stretchState.topRight,
+                        stretchState.bottomRight,
+                        stretchState.bottomLeft,
                     ].join(' ')}
                     fill="#f99"
                     fillOpacity="0.4"
@@ -34,22 +55,26 @@ export const ImageStretcher = ({ imageProcessor }: Props) => {
                 />
                 <Circle
                     side="topLeft"
-                    stretchOptions={stretchOptions}
+                    stretchState={stretchState}
+                    setInterimCorner={setInterimCorner}
                     setCorner={setCorner}
                 />
                 <Circle
                     side="topRight"
-                    stretchOptions={stretchOptions}
+                    stretchState={stretchState}
+                    setInterimCorner={setInterimCorner}
                     setCorner={setCorner}
                 />
                 <Circle
                     side="bottomRight"
-                    stretchOptions={stretchOptions}
+                    stretchState={stretchState}
+                    setInterimCorner={setInterimCorner}
                     setCorner={setCorner}
                 />
                 <Circle
                     side="bottomLeft"
-                    stretchOptions={stretchOptions}
+                    stretchState={stretchState}
+                    setInterimCorner={setInterimCorner}
                     setCorner={setCorner}
                 />
             </svg>

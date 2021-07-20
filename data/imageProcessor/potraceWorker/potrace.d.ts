@@ -1,5 +1,5 @@
 declare namespace Potrace {
-    interface Parameters {
+    type Parameters = Partial<{
         turnpolicy:
             | 'black'
             | 'white'
@@ -11,7 +11,7 @@ declare namespace Potrace {
         optcurve: boolean;
         alphamax: number;
         opttolerance: number;
-    }
+    }>;
     interface Point {
         x: number;
         y: number;

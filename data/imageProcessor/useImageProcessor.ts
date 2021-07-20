@@ -1,6 +1,6 @@
 import { SyntheticEvent, useMemo, useState } from 'react';
-import { useOpenCvWorker } from './openCvWorker';
 import { useBitmapImport } from './useBitmapImport';
+import { useSvgImport } from './useSvgImport';
 
 interface DragEvent<T = Element> extends SyntheticEvent<T> {
     dataTransfer: DataTransfer;
@@ -8,17 +8,14 @@ interface DragEvent<T = Element> extends SyntheticEvent<T> {
 
 export const useImageProcessor = () => {
     const [file, setFile] = useState<File | undefined>(undefined);
-    const [svgString, setSvgString] = useState<string | undefined>(undefined);
 
     const bitmapImport = useBitmapImport(file);
+    const svgImport = useSvgImport(file);
 
     const processFile = useMemo(
         () => async (file: File) => {
             setFile(file);
-            if (file.type.includes('svg')) {
-                const text = await file.text();
-                setSvgString(text);
-            } else if (file.type.includes('image') === false) {
+            if (file.type.includes('image') === false) {
                 alert(
                     `This file couldn't be read because it's not an image file.`
                 );
@@ -55,9 +52,9 @@ export const useImageProcessor = () => {
         listeners,
         upload: {
             file,
-            svgString,
         },
         bitmapImport,
+        svgImport,
         result: {
             pieces: undefined,
         },

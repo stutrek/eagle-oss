@@ -5,6 +5,7 @@ import { isEqual } from 'lodash';
 import { useOpenCvWorker } from './openCvWorker';
 import { usePotraceWorker } from './potraceWorker';
 import type Potrace from './potraceWorker/potrace';
+import { useCanceledEffect } from '../../hooks/useCanceledEffect';
 
 export type Point = [number, number];
 export type StretchOptions = {
@@ -78,7 +79,7 @@ export const useBitmapImport = (file: File | undefined) => {
         [file]
     );
 
-    useEffect(
+    useCanceledEffect(
         function handleDistortion() {
             if (imageBitmap) {
                 let originalStretchOptions = {
@@ -88,44 +89,43 @@ export const useBitmapImport = (file: File | undefined) => {
                     bottomLeft: [0, imageBitmap.height],
                 };
                 if (isEqual(stretchOptions, originalStretchOptions)) {
-                    setStretchedBitmap(imageBitmap);
+                    return imageBitmap;
                 } else {
-                    openCvWorker
-                        .distort(imageBitmap, stretchOptions)
-                        .then((outBitmap) => setStretchedBitmap(outBitmap));
+                    setStretchedBitmap(undefined);
+                    return openCvWorker.distort(imageBitmap, stretchOptions);
                 }
             } else {
-                setStretchedBitmap(undefined);
+                return undefined;
             }
         },
+        setStretchedBitmap,
         [imageBitmap, stretchOptions]
     );
 
-    useEffect(
+    useCanceledEffect(
         function makeOutline() {
             if (stretchedBitmap) {
-                openCvWorker
-                    .adaptiveThreshold(stretchedBitmap)
-                    .then((outBitmap) => {
-                        setOutlineBitmap(outBitmap);
-                    });
+                return openCvWorker.adaptiveThreshold(stretchedBitmap);
             } else {
-                setOutlineBitmap(undefined);
+                return undefined;
             }
         },
+        setOutlineBitmap,
         [stretchedBitmap]
     );
 
-    useEffect(
+    useCanceledEffect(
         function potrace() {
             if (outlineBitmap) {
-                potraceWorker
-                    .traceImageBitmap(outlineBitmap, potaceParams)
-                    .then((paths) => setPaths(paths));
+                return potraceWorker.traceImageBitmap(
+                    outlineBitmap,
+                    potaceParams
+                );
             } else {
-                setPaths(undefined);
+                return undefined;
             }
         },
+        setPaths,
         [outlineBitmap]
     );
 

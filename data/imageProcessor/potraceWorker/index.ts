@@ -7,12 +7,15 @@ export const usePotraceWorker = () => {
 
     const worker = useMemo(() => {
         const startWorker = () => {
-            if (!workerPromiseRef.current) {
-                workerPromiseRef.current = spawn<PotraceWorker>(
-                    // @ts-ignore
-                    new Worker(new URL('./worker.ts', import.meta.url))
-                );
+            if (workerPromiseRef.current) {
+                workerPromiseRef.current.then((worker) => {
+                    Thread.terminate(worker);
+                });
             }
+            workerPromiseRef.current = spawn<PotraceWorker>(
+                // @ts-ignore
+                new Worker(new URL('./worker.ts', import.meta.url))
+            );
             return workerPromiseRef.current;
         };
 

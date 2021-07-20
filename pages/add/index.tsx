@@ -11,7 +11,7 @@
 3. Outline it
 4. Flush turds
 5. Use small squares to break shapes
-6. Find centers
+6. Find centers          
 7. Show to user
 */
 
@@ -35,12 +35,12 @@ export default function AddPage() {
 
     if (
         imageProcessor.result.pieces === undefined &&
-        imageProcessor.upload.svgString
+        imageProcessor.svgImport.svgString
     ) {
         return (
             <img
                 src={`data:image/svg+xml,${escape(
-                    imageProcessor.upload.svgString
+                    imageProcessor.svgImport.svgString
                 )}`}
             />
         );
