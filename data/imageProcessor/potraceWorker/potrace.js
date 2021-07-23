@@ -132,6 +132,9 @@ var Potrace = (function () {
         imgCanvas.height = imageBitmap.height;
         var ctx = imgCanvas.getContext('2d');
         ctx.drawImage(imageBitmap, 0, 0);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(0, 0, imageBitmap.width, imageBitmap.height);
         loadBm();
     }
 

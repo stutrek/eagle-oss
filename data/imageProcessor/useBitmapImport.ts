@@ -22,7 +22,7 @@ const initialStretchOptions: StretchOptions = {
     bottomRight: [0, 0],
 };
 
-const potaceParams: Potrace.Parameters = {
+const potraceParams: Potrace.Parameters = {
     optcurve: true,
     opttolerance: 0.01,
 };
@@ -54,7 +54,11 @@ export const useBitmapImport = (file: File | undefined) => {
     useEffect(
         function loadFile() {
             (async () => {
-                if (file && file.type.includes('image')) {
+                if (
+                    file &&
+                    file.type.includes('image') &&
+                    file.type.includes('svg') === false
+                ) {
                     const buffer = await file.arrayBuffer();
                     const result = exif.readFromBinaryFile(buffer);
                     setResolution(result.XResolution || 72);
@@ -119,7 +123,7 @@ export const useBitmapImport = (file: File | undefined) => {
             if (outlineBitmap) {
                 return potraceWorker.traceImageBitmap(
                     outlineBitmap,
-                    potaceParams
+                    potraceParams
                 );
             } else {
                 return undefined;

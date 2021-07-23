@@ -1,5 +1,4 @@
-import { expose, Transfer } from 'threads/worker';
-import type { TransferDescriptor } from 'threads';
+import { expose } from 'threads/worker';
 
 import paper from 'paper';
 
@@ -35,7 +34,6 @@ async function traceImageBitmap(
                 );
                 if (parentPath) {
                     parentPath.addChild(compoundPath);
-                    // parentPath.importSVG(`<path d="${path}" />`);
                 } else {
                     // without reversing the points, the area is negative.
                     compoundPath.reverse();

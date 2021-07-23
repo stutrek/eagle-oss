@@ -18,6 +18,7 @@
 import { UploadButton } from './components/UploadButton';
 import { useImageProcessor } from '../../data/imageProcessor/useImageProcessor';
 import { BitmapImport } from './components/BitmapImport';
+import { SvgImport } from './components/SvgImport';
 
 export default function AddPage() {
     const imageProcessor = useImageProcessor();
@@ -33,17 +34,8 @@ export default function AddPage() {
         return <BitmapImport imageProcessor={imageProcessor} />;
     }
 
-    if (
-        imageProcessor.result.pieces === undefined &&
-        imageProcessor.svgImport.svgString
-    ) {
-        return (
-            <img
-                src={`data:image/svg+xml,${escape(
-                    imageProcessor.svgImport.svgString
-                )}`}
-            />
-        );
+    if (imageProcessor.svgImport.svgString !== undefined) {
+        return <SvgImport imageProcessor={imageProcessor} />;
     }
 
     return <div>what?</div>;
