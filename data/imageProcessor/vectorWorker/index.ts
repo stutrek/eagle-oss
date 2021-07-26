@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { ModuleThread, spawn, Thread, Worker } from 'threads';
+import { createPreliminaryProject } from './createPreliminaryProject';
 import { PaperWorkerType } from './worker';
 
-export const usePaperWorker = () => {
+export function useVectorWorker() {
     let workerPromiseRef = useRef<Promise<ModuleThread<PaperWorkerType>>>();
 
     const worker = useMemo(() => {
@@ -34,6 +35,17 @@ export const usePaperWorker = () => {
                 project.importJSON(whiteJsonString);
                 return project;
             },
+            async createPreliminaryProject(
+                originalImage: ImageBitmap,
+                paths: string[]
+            ) {
+                const worker = await startWorker();
+                return worker.createPreliminaryProject(
+                    originalImage,
+                    paths,
+                    window.devicePixelRatio
+                );
+            },
         };
         return workerProxy;
     }, []);
@@ -47,4 +59,4 @@ export const usePaperWorker = () => {
     }, []);
 
     return worker;
-};
+}

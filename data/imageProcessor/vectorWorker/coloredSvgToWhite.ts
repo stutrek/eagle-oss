@@ -1,5 +1,4 @@
 import { Project, Color } from 'paper';
-import { expose } from 'threads/worker';
 
 export function coloredSVGToWhite(jsonString: string, size: [number, number]) {
     const canvas = new OffscreenCanvas(size[0], size[1]);
@@ -44,11 +43,3 @@ export function coloredSVGToWhite(jsonString: string, size: [number, number]) {
 
     return Promise.resolve(returnString);
 }
-
-const toExpose = {
-    coloredSVGToWhite,
-} as const;
-
-expose(toExpose);
-
-export type PaperWorkerType = typeof toExpose;

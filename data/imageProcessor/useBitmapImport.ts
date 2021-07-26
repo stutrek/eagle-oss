@@ -6,6 +6,8 @@ import { useOpenCvWorker } from './openCvWorker';
 import { usePotraceWorker } from './potraceWorker';
 import type Potrace from './potraceWorker/potrace';
 import { useCanceledEffect } from '../../hooks/useCanceledEffect';
+import { PreliminaryProject } from './vectorWorker/createPreliminaryProject';
+import { useVectorWorker } from './vectorWorker';
 
 export type Point = [number, number];
 export type StretchOptions = {
@@ -48,8 +50,13 @@ export const useBitmapImport = (file: File | undefined) => {
 
     const [paths, setPaths] = useState<string[] | undefined>();
 
+    const [preliminaryProject, setPreliminaryProject] = useState<
+        PreliminaryProject | undefined
+    >();
+
     const openCvWorker = useOpenCvWorker();
     const potraceWorker = usePotraceWorker();
+    const vectorWorker = useVectorWorker();
 
     useEffect(
         function loadFile() {
@@ -133,6 +140,20 @@ export const useBitmapImport = (file: File | undefined) => {
         [outlineBitmap]
     );
 
+    useCanceledEffect(
+        function findCentersAndColors() {
+            if (!stretchedBitmap || !paths) {
+                return;
+            }
+            return vectorWorker.createPreliminaryProject(
+                stretchedBitmap,
+                paths
+            );
+        },
+        setPreliminaryProject,
+        [paths]
+    );
+
     return {
         imageBitmap,
         stretchedBitmap,
@@ -140,6 +161,7 @@ export const useBitmapImport = (file: File | undefined) => {
         resolution,
         stretchOptions,
         paths,
+        preliminaryProject,
         setCorner(side: keyof StretchOptions, value: Point) {
             setStretchOptions({
                 ...stretchOptions,

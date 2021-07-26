@@ -1,0 +1,29 @@
+.progressList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.progressList li {
+    margin-bottom: 5px;
+}
+
+.progressList .waiting::before {
+    content: '-';
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.progressList .done::before {
+    content: '✓';
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.svgImportDisplay svg,
+.svgImportDisplay img {
+    max-width: 100%;
+    max-height: 100%;
+}

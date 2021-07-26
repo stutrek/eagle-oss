@@ -8,17 +8,20 @@ interface DragEvent<T = Element> extends SyntheticEvent<T> {
 
 export const useImageProcessor = () => {
     const [file, setFile] = useState<File | undefined>(undefined);
+    const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
     const bitmapImport = useBitmapImport(file);
     const svgImport = useSvgImport(file);
 
     const processFile = useMemo(
         () => async (file: File) => {
-            setFile(file);
             if (file.type.includes('image') === false) {
-                alert(
+                setErrorMessage(
                     `This file couldn't be read because it's not an image file.`
                 );
+            } else {
+                setErrorMessage(undefined);
+                setFile(file);
             }
         },
         []
@@ -52,6 +55,7 @@ export const useImageProcessor = () => {
         listeners,
         upload: {
             file,
+            errorMessage,
         },
         bitmapImport,
         svgImport,

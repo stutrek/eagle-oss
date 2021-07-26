@@ -1,6 +1,4 @@
-import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { stringify } from 'uuid';
 import { getDb } from '../data/db';
 import { Glass, Piece, Project } from '../data/types';
 

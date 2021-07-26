@@ -18,13 +18,27 @@
 import { UploadButton } from './components/UploadButton';
 import { useImageProcessor } from '../../data/imageProcessor/useImageProcessor';
 import { BitmapImport } from './components/BitmapImport';
-import { SvgImport } from './components/SvgImport';
+import { SvgImport } from './components/svgImport';
+import { HeaderLayout } from '../../components/layout';
+import { Header } from '../../components/header';
 
 export default function AddPage() {
     const imageProcessor = useImageProcessor();
 
     if (imageProcessor.upload.file === undefined) {
-        return <UploadButton listeners={imageProcessor.listeners} />;
+        return (
+            <HeaderLayout>
+                <Header>
+                    <h1>Import a Pattern</h1>
+                </Header>
+                <div>
+                    <UploadButton
+                        listeners={imageProcessor.listeners}
+                        errorMessage={imageProcessor.upload.errorMessage}
+                    />
+                </div>
+            </HeaderLayout>
+        );
     }
 
     if (

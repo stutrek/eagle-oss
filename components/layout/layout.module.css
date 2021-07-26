@@ -12,5 +12,22 @@
     position: relative;
 }
 
-.footer {
+.layoutWithSidebar {
+    display: flex;
+    overflow: hidden;
+}
+
+.sidebar {
+    flex: 0 0;
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 1px solid var(--silver);
+    box-sizing: border-box;
+}
+
+.sidebarWithPadding {
+    composes: sidebar;
+    padding: 20px;
 }

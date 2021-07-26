@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useCanceledEffect } from '../../hooks/useCanceledEffect';
-import { usePaperWorker } from './paperWorker';
+import { useVectorWorker } from './vectorWorker';
 import type paper from 'paper';
 import { usePotraceWorker } from './potraceWorker';
 import type Potrace from './potraceWorker/potrace';
+import { PreliminaryProject } from './vectorWorker/createPreliminaryProject';
 
 const potraceParams: Potrace.Parameters = {
     optcurve: true,
@@ -20,8 +21,11 @@ export function useSvgImport(file: File | undefined) {
     );
     const [size, setSize] = useState<[number, number] | undefined>();
     const [paths, setPaths] = useState<string[] | undefined>();
+    const [preliminaryProject, setPreliminaryProject] = useState<
+        PreliminaryProject | undefined
+    >();
 
-    const paperWorker = usePaperWorker();
+    const vectorWorker = useVectorWorker();
     const potraceWorker = usePotraceWorker();
 
     useCanceledEffect(
@@ -60,7 +64,7 @@ export function useSvgImport(file: File | undefined) {
             if (svgString === undefined || size === undefined) {
                 return undefined;
             }
-            return paperWorker.coloredSVGToWhite(svgString, size);
+            return vectorWorker.coloredSVGToWhite(svgString, size);
         },
         (project) => {
             setWhiteSvgProject(project);
@@ -99,11 +103,35 @@ export function useSvgImport(file: File | undefined) {
         [whiteSvgProject]
     );
 
+    useCanceledEffect(
+        function findCentersAndColors() {
+            if (!svgString || !paths) {
+                return;
+            }
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = `data:image/svg+xml,${escape(svgString)}`;
+
+                img.onload = async () => {
+                    const imageBitmap = await createImageBitmap(img);
+                    const project = await vectorWorker.createPreliminaryProject(
+                        imageBitmap,
+                        paths
+                    );
+                    resolve(project);
+                };
+            });
+        },
+        setPreliminaryProject,
+        [paths]
+    );
+
     return {
         svgString,
         whiteSvgProject,
         whiteSvgString,
         paths,
+        preliminaryProject,
         size,
     };
 }
