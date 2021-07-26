@@ -87,13 +87,18 @@ export const createPreliminaryProject = (
 
     const colors: InternalPreliminaryColor[] = [];
 
-    const shapes: PreliminaryShape[] = paths.map((pathString) => {
+    const shapes: PreliminaryShape[] = [];
+    for (const pathString of paths) {
         const labelLocation = calculateLabelLocation(pathString);
 
         const paperPath = new paper.CompoundPath(pathString);
         const labelLocationPoint = new paper.Point(labelLocation);
         const closestPoint = paperPath.getNearestPoint(labelLocationPoint);
         const labelSize = closestPoint.getDistance(labelLocationPoint);
+
+        if (labelSize < 3) {
+            continue;
+        }
 
         const averageColor = getColor(
             colorContext,
@@ -134,13 +139,13 @@ export const createPreliminaryProject = (
             colors.push(color);
         }
 
-        return {
+        shapes.push({
             path: pathString,
             labelLocation,
             labelSize,
             color: color.id,
-        };
-    });
+        });
+    }
 
     const exportableColors = colors.map((color) => ({
         ...color,

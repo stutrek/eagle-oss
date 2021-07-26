@@ -116,7 +116,8 @@ export function useSvgImport(file: File | undefined) {
                     const imageBitmap = await createImageBitmap(img);
                     const project = await vectorWorker.createPreliminaryProject(
                         imageBitmap,
-                        paths
+                        paths,
+                        window.devicePixelRatio
                     );
                     resolve(project);
                 };

@@ -147,7 +147,8 @@ export const useBitmapImport = (file: File | undefined) => {
             }
             return vectorWorker.createPreliminaryProject(
                 stretchedBitmap,
-                paths
+                paths,
+                1
             );
         },
         setPreliminaryProject,

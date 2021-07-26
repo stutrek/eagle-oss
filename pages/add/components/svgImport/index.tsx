@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
-import { keyBy } from 'lodash';
-import chroma from 'chroma-js';
+import { useState } from 'react';
+
+import { PathDisplay } from '../PathDisplay';
+
 import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
 import {
     HeaderLayout,
@@ -25,53 +26,19 @@ export const DisplaySvg = ({ imageProcessor }: Props) => {
         return <div>Loading...</div>;
     }
 
-    const colors = useMemo(() => {
-        if (!preliminaryProject) {
-            return undefined;
-        }
-        const modifiedColors = preliminaryProject.colors.map((color) => ({
-            ...color,
-            color: chroma.lch(...color.color),
-        }));
-        return keyBy(modifiedColors, 'id');
-    }, [preliminaryProject]);
-
-    if (preliminaryProject && size && colors) {
-        const { shapes } = preliminaryProject;
+    if (size && paths) {
         return (
             <div className={styles.svgImportDisplay}>
-                <svg
-                    width={size[0] / window.devicePixelRatio}
-                    height={size[1] / window.devicePixelRatio}
-                    viewBox={`0 0 ${size[0]} ${size[1]}`}
-                >
-                    {shapes.map((shape) => (
-                        <path
-                            key={shape.path}
-                            d={shape.path}
-                            fill={colors[shape.color].color.hex()}
-                        />
-                    ))}
-                </svg>
+                <PathDisplay
+                    size={size}
+                    paths={paths}
+                    preliminaryProject={preliminaryProject}
+                    devicePixelRatio={window.devicePixelRatio}
+                />
             </div>
         );
     }
 
-    if (paths && size) {
-        return (
-            <div className={styles.svgImportDisplay}>
-                <svg
-                    width={size[0] / window.devicePixelRatio}
-                    height={size[1] / window.devicePixelRatio}
-                    viewBox={`0 0 ${size[0]} ${size[1]}`}
-                >
-                    {paths.map((path) => (
-                        <path key={path} d={path} />
-                    ))}
-                </svg>
-            </div>
-        );
-    }
     return (
         <div className={styles.svgImportDisplay}>
             <img

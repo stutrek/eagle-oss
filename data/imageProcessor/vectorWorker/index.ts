@@ -37,13 +37,14 @@ export function useVectorWorker() {
             },
             async createPreliminaryProject(
                 originalImage: ImageBitmap,
-                paths: string[]
+                paths: string[],
+                devicePixelRatio: number
             ) {
                 const worker = await startWorker();
                 return worker.createPreliminaryProject(
                     originalImage,
                     paths,
-                    window.devicePixelRatio
+                    devicePixelRatio
                 );
             },
         };
