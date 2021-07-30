@@ -45,6 +45,13 @@ async function adaptiveThreshold(
     );
     // @ts-ignore
     cv.imshow(canvas, dst);
+
+    const context = canvas.getContext('2d');
+    if (!context) {
+        throw new Error('no 2d');
+    }
+    context.strokeStyle = '1px solid black';
+    context?.strokeRect(0, 0, canvas.width, canvas.height);
     src.delete();
     dst.delete();
     const outBitmap = await createImageBitmap(canvas);

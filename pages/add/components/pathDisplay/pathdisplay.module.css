@@ -1,0 +1,8 @@
+.svgContainer path {
+    paint-order: stroke fill;
+    stroke: black;
+    stroke-width: 3px;
+}
+.svgContainer path:hover {
+    stroke-width: 10px;
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PathDisplay } from '../PathDisplay';
+import { PathDisplay } from '../pathDisplay';
 
 import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
 import {
@@ -10,15 +10,16 @@ import {
 } from '../../../../components/layout';
 import { Header } from '../../../../components/header';
 
-import { ColorControlOption, ColorControls } from './colorControls';
+import { ColorControlOption, ColorControls } from '../colorControls';
 
 import styles from '../../add.module.css';
 
 type Props = {
     imageProcessor: ImageProcessorReturn;
+    colorOption: ColorControlOption;
 };
 
-export const DisplaySvg = ({ imageProcessor }: Props) => {
+export const DisplaySvg = ({ imageProcessor, colorOption }: Props) => {
     const { svgString, whiteSvgString, paths, size, preliminaryProject } =
         imageProcessor.svgImport;
 
@@ -33,6 +34,7 @@ export const DisplaySvg = ({ imageProcessor }: Props) => {
                     size={size}
                     paths={paths}
                     preliminaryProject={preliminaryProject}
+                    colorOption={colorOption}
                     devicePixelRatio={window.devicePixelRatio}
                 />
             </div>
@@ -85,7 +87,10 @@ export const SvgImport = ({ imageProcessor }: Props) => {
                         />
                     )}
                 </Sidebar>
-                <DisplaySvg imageProcessor={imageProcessor} />
+                <DisplaySvg
+                    imageProcessor={imageProcessor}
+                    colorOption={colorOption}
+                />
             </ContentWithSidebar>
         </HeaderLayout>
     );
