@@ -127,10 +127,16 @@ var Potrace = (function () {
         loadBm();
     }
 
+    function getContext() {
+        return imgCanvas.getContext('2d');
+    }
+
     function loadImageBitmap(imageBitmap) {
+        var ctx = imgCanvas.getContext('2d');
+        const filter = ctx.filter;
         imgCanvas.width = imageBitmap.width;
         imgCanvas.height = imageBitmap.height;
-        var ctx = imgCanvas.getContext('2d');
+        ctx.filter = filter;
         ctx.drawImage(imageBitmap, 0, 0);
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 1;
@@ -1538,6 +1544,7 @@ var Potrace = (function () {
     return {
         loadImageBitmap,
         setCanvas,
+        getContext,
         setParameter,
         process,
         getSVG,

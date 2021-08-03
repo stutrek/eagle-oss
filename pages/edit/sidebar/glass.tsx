@@ -1,3 +1,4 @@
+import chroma from 'chroma-js';
 import React, { SyntheticEvent, useMemo } from 'react';
 import { Dropdown, Icon } from 'semantic-ui-react';
 import { Glass } from '../../../data/types';
@@ -20,6 +21,13 @@ interface MenuItem {
     icon?: string;
 }
 
+const colorToHex = (color: Glass['color']) => {
+    if (Array.isArray(color)) {
+        return chroma.lch(...color).hex();
+    }
+    return color;
+};
+
 export const GlassRow = ({
     glass,
     editorState,
@@ -37,7 +45,6 @@ export const GlassRow = ({
         () =>
             (event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                 const target = event.target as HTMLInputElement;
-                console.log(event);
                 if (target.name in glass) {
                     let newGlass = {
                         ...glass,
@@ -86,17 +93,21 @@ export const GlassRow = ({
     let isSelected = editorState.selection === glass;
     let className = isSelected ? styles.glassSelected : styles.glassNotSelected;
 
+    const color = colorToHex(glass.color);
+
+    const nightColor = colorToHex(glass.nightColor || glass.color);
+
     return (
         <tr className={className}>
             <td onClick={selectGlass} className={styles.colorCell}>
                 <label
                     className={styles.color}
-                    style={{ backgroundColor: glass.color }}
+                    style={{ backgroundColor: color }}
                 >
                     <input
                         type="color"
                         name="color"
-                        value={glass.color}
+                        value={color}
                         onChange={handleChange}
                         tabIndex={-1}
                     />
@@ -106,13 +117,13 @@ export const GlassRow = ({
                 <label
                     className={glass.nightColor ? styles.color : styles.noColor}
                     style={{
-                        backgroundColor: glass.nightColor || glass.color,
+                        backgroundColor: nightColor,
                     }}
                 >
                     <input
                         type="color"
                         name="nightColor"
-                        value={glass.nightColor || glass.color}
+                        value={nightColor}
                         onChange={handleChange}
                         tabIndex={-1}
                     />

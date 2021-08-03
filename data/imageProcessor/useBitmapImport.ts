@@ -6,8 +6,8 @@ import { useOpenCvWorker } from './openCvWorker';
 import { usePotraceWorker } from './potraceWorker';
 import type Potrace from './potraceWorker/potrace';
 import { useCanceledEffect } from '../../hooks/useCanceledEffect';
-import { PreliminaryProject } from './vectorWorker/createPreliminaryProject';
 import { useVectorWorker } from './vectorWorker';
+import { PreliminaryProject } from '../types';
 
 export type Point = [number, number];
 export type StretchOptions = {
@@ -130,7 +130,8 @@ export const useBitmapImport = (file: File | undefined) => {
             if (outlineBitmap) {
                 return potraceWorker.traceImageBitmap(
                     outlineBitmap,
-                    potraceParams
+                    potraceParams,
+                    false
                 );
             } else {
                 return undefined;

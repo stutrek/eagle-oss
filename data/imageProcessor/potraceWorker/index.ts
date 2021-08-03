@@ -20,9 +20,9 @@ export const usePotraceWorker = () => {
         };
 
         const workerProxy: PotraceWorker = {
-            traceImageBitmap: async (imageBitmap, params) => {
+            traceImageBitmap: async (imageBitmap, params, soften) => {
                 const worker = await startWorker();
-                return worker.traceImageBitmap(imageBitmap, params);
+                return worker.traceImageBitmap(imageBitmap, params, soften);
             },
         };
 

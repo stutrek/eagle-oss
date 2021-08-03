@@ -17,7 +17,7 @@
 
 import { UploadButton } from './components/UploadButton';
 import { useImageProcessor } from '../../data/imageProcessor/useImageProcessor';
-import { BitmapImport } from './components/BitmapImport';
+import { BitmapImport } from './components/bitmapImport';
 import { SvgImport } from './components/svgImport';
 import { HeaderLayout } from '../../components/layout';
 import { Header } from '../../components/header';

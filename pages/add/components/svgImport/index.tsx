@@ -16,10 +16,17 @@ import styles from '../../add.module.css';
 
 type Props = {
     imageProcessor: ImageProcessorReturn;
+};
+
+type DisplaySvgProps = {
+    imageProcessor: ImageProcessorReturn;
     colorOption: ColorControlOption;
 };
 
-export const DisplaySvg = ({ imageProcessor, colorOption }: Props) => {
+export const DisplaySvg = ({
+    imageProcessor,
+    colorOption,
+}: DisplaySvgProps) => {
     const { svgString, whiteSvgString, paths, size, preliminaryProject } =
         imageProcessor.svgImport;
 

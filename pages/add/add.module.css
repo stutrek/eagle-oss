@@ -5,13 +5,14 @@
 }
 
 .progressList li {
-    margin-bottom: 5px;
+    margin: 0 0 5px 20px;
 }
 
 .progressList .waiting::before {
     content: '-';
     width: 20px;
     display: inline-block;
+    margin-left: -20px;
     text-align: center;
 }
 
@@ -19,6 +20,7 @@
     content: '✓';
     width: 20px;
     display: inline-block;
+    margin-left: -20px;
     text-align: center;
 }
 

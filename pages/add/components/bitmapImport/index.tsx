@@ -12,10 +12,10 @@ import { PathDisplay } from '../pathDisplay';
 
 import styles from '../../add.module.css';
 import { useState } from 'react';
+import { SaveForm } from '../saveForm';
 
 type Props = {
     imageProcessor: ImageProcessorReturn;
-    colorOption: ColorControlOption;
 };
 
 function getClassName(thing: any) {
@@ -49,23 +49,36 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
                             Loading image
                         </li>
                         <li className={getClassName(stretchedBitmap)}>
-                            Correcting for distortion
+                            Correcting shape
                         </li>
                         <li className={getClassName(outlineBitmap)}>
                             Enhancing image
                         </li>
                         <li className={getClassName(paths)}>
                             Converting to outlines
+                            {paths ? (
+                                <div>{paths.length} pieces</div>
+                            ) : (
+                                <div>0 pieces</div>
+                            )}
                         </li>
                         <li className={getClassName(preliminaryProject)}>
                             Finding colors
                         </li>
                     </ul>
-                    {paths && (
-                        <ColorControls
-                            colorOption={colorOption}
-                            setColorOption={setColorOption}
-                        />
+                    {paths && preliminaryProject && (
+                        <>
+                            <hr />
+                            <ColorControls
+                                colorOption={colorOption}
+                                setColorOption={setColorOption}
+                            />
+                            <hr />
+                            <SaveForm
+                                preliminaryProject={preliminaryProject}
+                                imageProcessor={imageProcessor}
+                            />
+                        </>
                     )}
                 </Sidebar>
                 {imageBitmap && (

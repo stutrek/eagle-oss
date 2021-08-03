@@ -31,20 +31,32 @@ async function adaptiveThreshold(
     await cvReadyPromise;
     const [src, canvas] = matFromImageBitmap(imageBitmap);
 
-    let dst = new cv.Mat();
+    const thesholdDestination = new cv.Mat();
     cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
     // You can try more different parameters
     cv.adaptiveThreshold(
         src,
-        dst,
+        thesholdDestination,
         255,
         cv.ADAPTIVE_THRESH_GAUSSIAN_C,
         cv.THRESH_BINARY,
         21,
         8
     );
+
+    let ksize = new cv.Size(1, 1);
+    const blurDestination = new cv.Mat();
+    cv.GaussianBlur(
+        thesholdDestination,
+        blurDestination,
+        ksize,
+        0,
+        0,
+        cv.BORDER_DEFAULT
+    );
+
     // @ts-ignore
-    cv.imshow(canvas, dst);
+    cv.imshow(canvas, blurDestination);
 
     const context = canvas.getContext('2d');
     if (!context) {
@@ -53,7 +65,8 @@ async function adaptiveThreshold(
     context.strokeStyle = '1px solid black';
     context?.strokeRect(0, 0, canvas.width, canvas.height);
     src.delete();
-    dst.delete();
+    thesholdDestination.delete();
+    blurDestination.delete();
     const outBitmap = await createImageBitmap(canvas);
 
     return Transfer(outBitmap);

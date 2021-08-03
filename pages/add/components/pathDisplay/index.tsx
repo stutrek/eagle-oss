@@ -1,10 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { keyBy } from 'lodash';
 import chroma from 'chroma-js';
-import {
-    PreliminaryProject,
-    PreliminaryShape,
-} from '../../../../data/imageProcessor/vectorWorker/createPreliminaryProject';
+import { PreliminaryProject, PreliminaryShape } from '../../../../data/types';
 import { ColorControlOption } from '../colorControls';
 
 import styles from './pathdisplay.module.css';

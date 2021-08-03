@@ -41,6 +41,7 @@ declare namespace Potrace {
     function process(callback: Function): void;
     function getSVG(size: number, opt_type: 'curve' | undefined): void;
     function setCanvas(canvas: HTMLCanvasElement | OffscreenCanvas): void;
+    function getContext(): CanvasRenderingContext2D;
     function getSVGPaths(size: number): string[];
     function getPathlist(): Path[];
     function pathToString(curve: Curve, size: number): string;

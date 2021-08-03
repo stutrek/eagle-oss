@@ -5,7 +5,7 @@ import paper from 'paper';
 import FastAverageColor from 'fast-average-color';
 import chroma from 'chroma-js';
 import { v4 as uuid } from 'uuid';
-import { keyBy } from 'lodash';
+import { PreliminaryProject, PreliminaryShape } from '../../types';
 
 const fac = new FastAverageColor();
 
@@ -15,24 +15,6 @@ type InternalPreliminaryColor = {
     id: string;
     shapeCount: number;
     color: chroma.Color;
-};
-
-export type PreliminaryColor = {
-    id: string;
-    shapeCount: number;
-    color: [number, number, number];
-};
-
-export type PreliminaryShape = {
-    path: string;
-    labelLocation: [number, number];
-    labelSize: number;
-    color: string;
-};
-
-export type PreliminaryProject = {
-    shapes: PreliminaryShape[];
-    colors: PreliminaryColor[];
 };
 
 const calculateLabelLocation = (path: string) => {
@@ -155,5 +137,7 @@ export const createPreliminaryProject = (
     return {
         shapes,
         colors: exportableColors,
+        width: originalImage.width,
+        height: originalImage.height,
     };
 };

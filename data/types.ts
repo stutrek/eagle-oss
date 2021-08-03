@@ -17,8 +17,8 @@ export interface Bounds {
 
 export interface Glass {
     id: string;
-    color: string;
-    nightColor: string | undefined;
+    color: string | [number, number, number];
+    nightColor?: string;
     title: string;
 }
 
@@ -26,14 +26,13 @@ export interface Piece {
     id: string;
     d: string;
     glass: string | undefined;
-    bounds: Bounds;
     label: string;
     labelCenter: Point;
     labelSize: number;
-    note: string;
-    title: string;
-    area: number;
-    warnings: Warnings;
+    note?: string;
+    title?: string;
+    area?: number;
+    warnings?: Warnings;
 }
 
 export interface Project {
@@ -47,3 +46,23 @@ export interface Project {
     dateCreated: Date;
     dateModified: Date;
 }
+
+export type PreliminaryColor = {
+    id: string;
+    shapeCount: number;
+    color: [number, number, number];
+};
+
+export type PreliminaryShape = {
+    path: string;
+    labelLocation: [number, number];
+    labelSize: number;
+    color: string;
+};
+
+export type PreliminaryProject = {
+    shapes: PreliminaryShape[];
+    colors: PreliminaryColor[];
+    width: number;
+    height: number;
+};

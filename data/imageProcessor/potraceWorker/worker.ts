@@ -8,10 +8,16 @@ import potrace from './potrace';
 
 async function traceImageBitmap(
     imageBitmap: ImageBitmap,
-    params: potrace.Parameters
+    params: potrace.Parameters,
+    soften = false
 ) {
     potrace.clear();
     potrace.setParameter(params);
+
+    if (soften) {
+        const context = potrace.getContext();
+        context.filter = 'blur(1px)';
+    }
 
     potrace.loadImageBitmap(imageBitmap);
 

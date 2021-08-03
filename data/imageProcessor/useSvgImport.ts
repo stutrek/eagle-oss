@@ -4,7 +4,7 @@ import { useVectorWorker } from './vectorWorker';
 import type paper from 'paper';
 import { usePotraceWorker } from './potraceWorker';
 import type Potrace from './potraceWorker/potrace';
-import { PreliminaryProject } from './vectorWorker/createPreliminaryProject';
+import { PreliminaryProject } from '../types';
 
 const potraceParams: Potrace.Parameters = {
     optcurve: true,
@@ -93,7 +93,8 @@ export function useSvgImport(file: File | undefined) {
                     );
                     const paths = await potraceWorker.traceImageBitmap(
                         imageBitmap,
-                        potraceParams
+                        potraceParams,
+                        true
                     );
                     resolve(paths);
                 });

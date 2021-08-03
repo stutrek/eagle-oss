@@ -56,8 +56,9 @@ export const ColorControls = ({
                     />
                 </Form.Field>
                 <Form.Field>
-                    After you save, it will always use the original color. These
-                    options can help you spot errors before saving the project.
+                    These options can help you find problems such as two pieces
+                    being connected. When you import the pattern it will use the
+                    original colors.
                 </Form.Field>
             </Form>
         </>

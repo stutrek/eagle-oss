@@ -1,0 +1,8 @@
+.ui.button {
+    background-color: var(--blue);
+    color: var(--white);
+}
+.ui.button:hover {
+    background-color: var(--dark-blue);
+    color: var(--white);
+}

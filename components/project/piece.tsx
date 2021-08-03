@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useMemo } from 'react';
 import { Label } from './label';
-import tinycolor from 'tinycolor2';
 import { Glass, Piece } from '../../data/types';
+import chroma from 'chroma-js';
 
 interface PieceProps {
     piece: Piece;
@@ -33,14 +33,21 @@ export const PieceView = (props: PieceProps) => {
     const color = useMemo(() => {
         if (!glass) {
             return '#ffffff';
-        } else if (colorOverride) {
+        }
+        let colorToUse =
+            nightMode && glass.nightColor ? glass.nightColor : glass.color;
+        let color: chroma.Color;
+        if (Array.isArray(colorToUse)) {
+            color = chroma.lch(...colorToUse);
+        } else {
+            color = chroma(colorToUse);
+        }
+        if (colorOverride) {
             return colorOverride;
         } else if (grayscale) {
-            return tinycolor(glass.color).desaturate(100).toString();
-        } else if (nightMode) {
-            return glass.nightColor || glass.color;
+            return color.desaturate(100).hex();
         } else {
-            return glass.color;
+            return color.hex();
         }
     }, [glass, colorOverride, nightMode, grayscale]);
 

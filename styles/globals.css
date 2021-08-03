@@ -25,6 +25,7 @@ a {
     --silver: silver;
     --light-grey: #eee;
     --dark-grey: #666;
+    --white: white;
 
     --sidebar-width: 250px;
 
@@ -33,4 +34,10 @@ a {
     --dark-blue: #3668a9;
     --desaturated-blue: #9baab4;
     --desaturated-light-blue: #ccd5e2;
+}
+hr {
+    height: 1px;
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid var(--silver);
 }
