@@ -76,9 +76,10 @@ export const createPreliminaryProject = (
         const paperPath = new paper.CompoundPath(pathString);
         const labelLocationPoint = new paper.Point(labelLocation);
         const closestPoint = paperPath.getNearestPoint(labelLocationPoint);
-        const labelSize = closestPoint.getDistance(labelLocationPoint);
+        const labelSize =
+            closestPoint.getDistance(labelLocationPoint) * devicePixelRatio;
 
-        if (labelSize < 3) {
+        if (labelSize < 3 * devicePixelRatio) {
             continue;
         }
 
@@ -98,8 +99,11 @@ export const createPreliminaryProject = (
 
         for (const knownColor of colors) {
             const distance = chroma.deltaE(knownColor.color, chromaColor);
+
             if (distance === 0) {
                 knownColor.shapeCount += 1;
+                color = knownColor;
+                break;
             } else if (distance < 3) {
                 knownColor.shapeCount += 1;
                 knownColor.color = chroma.mix(

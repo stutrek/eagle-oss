@@ -22,24 +22,29 @@ export const Label = ({
     let title = glass ? glass.title : '';
     const brightness = tinycolor(pieceColor).getBrightness();
     const isDark = brightness < 127;
-    const labelColor = isDark ? 'white' : 'black';
-    const strokeColor = isDark ? 'black' : 'white';
-    const strokeWidth = '2pt';
 
     const textClass = isDark ? 'labelForDarkPiece' : 'labelForLightPiece';
     const strokeClass = isDark ? 'strokeForDarkPiece' : 'strokeForLightPiece';
 
+    const titleLines = title.split('\n');
+
     numberSize = Math.max(numberSize, piece.labelSize * 0.5);
     numberSize = Math.min(numberSize, piece.labelSize * 0.75);
+    if (titleLines.length > 1) {
+        numberSize = numberSize * (1 - titleLines.length * 0.1);
+    }
     const labelSize = numberSize / 2;
+
+    let { x, y } = piece.labelCenter;
+    y = y - (titleLines.length - 1) * (numberSize / 8);
 
     return (
         <g className={styles.labelGroup}>
             <text
                 className={`label ${strokeClass}`}
                 textAnchor="middle"
-                x={piece.labelCenter.x}
-                y={piece.labelCenter.y}
+                x={x}
+                y={y}
                 data-id={piece.id}
                 onClick={handlePieceClick}
                 style={{
@@ -53,8 +58,8 @@ export const Label = ({
                     key={`${i}-1`}
                     className={`label ${strokeClass}`}
                     textAnchor="middle"
-                    x={piece.labelCenter.x}
-                    y={piece.labelCenter.y + numberSize / 2 + labelSize * i}
+                    x={x}
+                    y={y + numberSize / 2 + labelSize * i}
                     data-id={piece.id}
                     onClick={handlePieceClick}
                     style={{
@@ -67,8 +72,8 @@ export const Label = ({
             <text
                 className={`label ${textClass}`}
                 textAnchor="middle"
-                x={piece.labelCenter.x}
-                y={piece.labelCenter.y}
+                x={x}
+                y={y}
                 data-id={piece.id}
                 onClick={handlePieceClick}
                 style={{
@@ -77,13 +82,13 @@ export const Label = ({
             >
                 {piece.label}
             </text>
-            {title.split('\n').map((line, i) => (
+            {titleLines.map((line, i) => (
                 <text
                     key={`${i}-2`}
                     className={`label ${textClass}`}
                     textAnchor="middle"
-                    x={piece.labelCenter.x}
-                    y={piece.labelCenter.y + numberSize / 2 + labelSize * i}
+                    x={x}
+                    y={y + numberSize / 2 + labelSize * i}
                     data-id={piece.id}
                     onClick={handlePieceClick}
                     style={{
