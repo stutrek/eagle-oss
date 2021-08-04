@@ -87,6 +87,11 @@ export const SvgImport = ({ imageProcessor }: Props) => {
                         </li>
                         <li className={getClassName(paths)}>
                             Isolating shapes
+                            {paths ? (
+                                <div>{paths.length} pieces</div>
+                            ) : (
+                                <div>... pieces</div>
+                            )}
                         </li>
                     </ul>
                     {paths && preliminaryProject && (

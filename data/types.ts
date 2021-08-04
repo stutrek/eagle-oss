@@ -45,8 +45,9 @@ export interface Project {
     ppi: number;
     dateCreated: Date;
     dateModified: Date;
-    copyright: string;
-    license: string;
+    copyright?: string;
+    license?: string;
+    link?: string;
 }
 
 export type PreliminaryColor = {

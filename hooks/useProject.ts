@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getDb } from '../data/db';
+import { labelPieces } from '../data/labelPieces';
 import { Glass, Piece, Project } from '../data/types';
 
 type Methods = {
@@ -93,36 +94,7 @@ const createMethods = (
                 return item;
             });
 
-            const piecesByGlass: Record<string, Piece[]> = {};
-            const piecesById: Record<string, Piece> = {};
-
-            for (const piece of pieces) {
-                piecesById[piece.id] = piece;
-                if (piece.glass === undefined) {
-                    continue;
-                }
-                if (piecesByGlass[piece.glass] === undefined) {
-                    piecesByGlass[piece.glass] = [];
-                }
-                piecesByGlass[piece.glass].push(piece);
-            }
-
-            let count = 0;
-            for (const glass of project.glasses) {
-                piecesByGlass[glass.id] = piecesByGlass[glass.id].map(
-                    (piece) => {
-                        const newlabel = `${++count}`;
-                        if (piece.label === newlabel) {
-                            return piece;
-                        }
-                        return (piecesById[piece.id] = {
-                            ...piece,
-                            label: newlabel,
-                        });
-                    }
-                );
-            }
-            pieces = pieces.map((piece) => piecesById[piece.id]);
+            pieces = labelPieces(pieces, project.glasses);
 
             const updated = {
                 ...project,

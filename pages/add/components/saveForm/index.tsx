@@ -1,10 +1,11 @@
 import router from 'next/router';
-import { useCallback, useState } from 'react';
+import { FocusEvent, useCallback, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 
 import { getDb } from '../../../../data/db';
 import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
+import { labelPieces } from '../../../../data/labelPieces';
 import {
     Glass,
     Piece,
@@ -32,18 +33,19 @@ function toTenth(n: number) {
 function preliminaryProjectToTheRealThing(
     preliminary: PreliminaryProject,
     title: string,
-    copyright: string,
-    license: string
+    copyright: string | undefined,
+    license: string | undefined,
+    link: string | undefined
 ): Project {
     const glasses: Glass[] = preliminary.colors.map((color, i) => {
         return {
             color: color.color,
-            title: `Color ${i}`,
+            title: `Color ${i + 1}`,
             id: color.id,
         };
     });
 
-    const pieces: Piece[] = preliminary.shapes.map((piece) => {
+    const unlabeledPieces: Piece[] = preliminary.shapes.map((piece) => {
         return {
             id: uuid(),
             d: piece.path,
@@ -53,6 +55,9 @@ function preliminaryProjectToTheRealThing(
             labelSize: piece.labelSize,
         };
     });
+
+    const pieces = labelPieces(unlabeledPieces, glasses);
+
     return {
         id: uuid(),
         glasses,
@@ -64,19 +69,19 @@ function preliminaryProjectToTheRealThing(
         dateCreated: new Date(),
         dateModified: new Date(),
         copyright: copyright === '©' ? '' : copyright,
-        license: license,
+        license,
+        link,
     };
 }
 
 export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
     const [savingInProgress, setSavingInProgress] = useState(false);
     const [title, setTitle] = useState(
-        imageProcessor.upload.file?.name || 'Project'
+        imageProcessor.upload.file?.name.replace(/\.[^.]+$/, '') || 'Project'
     );
-    const [copyright, setCopyright] = useState(
-        `©${new Date().getFullYear()} Your Name`
-    );
+    const [copyright, setCopyright] = useState<string | undefined>(undefined);
     const [license, setLicense] = useState(`All Rights Reserved`);
+    const [link, setLink] = useState<string | undefined>();
     const [height, setHeight] = useState(preliminaryProject.height);
     const [width, setWidth] = useState(preliminaryProject.width);
 
@@ -92,7 +97,8 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
             preliminaryProject,
             title,
             copyright,
-            license
+            license,
+            link
         );
         db.projects.put(project);
         setSavingInProgress(false);
@@ -116,10 +122,28 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
                     Copyright
                     <Input
                         value={copyright}
-                        onChange={(event) => setCopyright(event.target.value)}
-                        onBlur={() =>
-                            copyright.trim() === '' && setCopyright('©')
-                        }
+                        placeholder={`©${new Date().getFullYear()} Your Name`}
+                        onChange={(event) => {
+                            if (event.target.value) {
+                                setCopyright(event.target.value);
+                            } else {
+                                setCopyright('©');
+                            }
+                        }}
+                        onFocus={(event: FocusEvent<HTMLInputElement>) => {
+                            if (!copyright) {
+                                event.target.value = '©';
+                                setTimeout(() => {
+                                    event.target.setSelectionRange(1, 1);
+                                }, 50);
+                            }
+                        }}
+                        onBlur={(event: FocusEvent<HTMLInputElement>) => {
+                            if (event.target.value === '©' || !copyright) {
+                                event.target.value = '';
+                                setCopyright(undefined);
+                            }
+                        }}
                     />
                 </label>
             </Form.Field>
@@ -131,7 +155,16 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
                         onChange={(event) => setLicense(event.target.value)}
                     />
                 </label>
-            </Form.Field>{' '}
+            </Form.Field>
+            <Form.Field>
+                <label>
+                    link
+                    <Input
+                        value={link}
+                        onChange={(event) => setLink(event.target.value)}
+                    />
+                </label>
+            </Form.Field>
             <Form.Field>
                 <label>
                     width

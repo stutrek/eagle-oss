@@ -59,7 +59,7 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
                             {paths ? (
                                 <div>{paths.length} pieces</div>
                             ) : (
-                                <div>0 pieces</div>
+                                <div>... pieces</div>
                             )}
                         </li>
                         <li className={getClassName(preliminaryProject)}>

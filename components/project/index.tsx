@@ -1,5 +1,6 @@
 import React, { useCallback, SyntheticEvent, useMemo } from 'react';
 import { Glass, Project } from '../../data/types';
+import { LicenseText } from './licenseText';
 
 import { PieceView } from './piece';
 
@@ -68,11 +69,6 @@ export const ProjectView = ({
     let height = (project.height / project.ppi) * scale;
 
     let numberSize = project.ppi / 8;
-
-    const licenseText = `${project.copyright || ''} ${
-        project.license || ''
-    }`.trim();
-
     return (
         <svg
             id="svg"
@@ -131,26 +127,7 @@ export const ProjectView = ({
                     nightMode={nightMode}
                 />
             ))}
-            {licenseText && (
-                <>
-                    <text
-                        x="20"
-                        y={project.height - 20}
-                        fontSize={12}
-                        className="strokeForLightPiece"
-                    >
-                        {licenseText}
-                    </text>
-                    <text
-                        x="20"
-                        y={project.height - 20}
-                        fontSize={12}
-                        className="labelForLightPiece"
-                    >
-                        {licenseText}
-                    </text>
-                </>
-            )}
+            <LicenseText project={project} />
         </svg>
     );
 };
