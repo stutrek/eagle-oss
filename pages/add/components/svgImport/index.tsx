@@ -13,6 +13,7 @@ import { Header } from '../../../../components/header';
 import { ColorControlOption, ColorControls } from '../colorControls';
 
 import styles from '../../add.module.css';
+import { SaveForm } from '../saveForm';
 
 type Props = {
     imageProcessor: ImageProcessorReturn;
@@ -67,7 +68,8 @@ function getClassName(thing: any) {
 }
 
 export const SvgImport = ({ imageProcessor }: Props) => {
-    const { svgString, whiteSvgString, paths, size } = imageProcessor.svgImport;
+    const { svgString, whiteSvgString, paths, preliminaryProject } =
+        imageProcessor.svgImport;
     const [colorOption, setColorOption] = useState<ColorControlOption>('white');
     return (
         <HeaderLayout>
@@ -87,11 +89,18 @@ export const SvgImport = ({ imageProcessor }: Props) => {
                             Isolating shapes
                         </li>
                     </ul>
-                    {paths && (
-                        <ColorControls
-                            colorOption={colorOption}
-                            setColorOption={setColorOption}
-                        />
+                    {paths && preliminaryProject && (
+                        <>
+                            <ColorControls
+                                colorOption={colorOption}
+                                setColorOption={setColorOption}
+                            />
+                            <hr />
+                            <SaveForm
+                                preliminaryProject={preliminaryProject}
+                                imageProcessor={imageProcessor}
+                            />
+                        </>
                     )}
                 </Sidebar>
                 <DisplaySvg

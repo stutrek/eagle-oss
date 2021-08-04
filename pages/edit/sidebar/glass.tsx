@@ -48,7 +48,7 @@ export const GlassRow = ({
                 if (target.name in glass) {
                     let newGlass = {
                         ...glass,
-                        color: target.value,
+                        [target.name]: target.value,
                     };
                     projectMethods.updateGlass(newGlass);
                 }

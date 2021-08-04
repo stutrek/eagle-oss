@@ -69,6 +69,10 @@ export const ProjectView = ({
 
     let numberSize = project.ppi / 8;
 
+    const licenseText = `${project.copyright || ''} ${
+        project.license || ''
+    }`.trim();
+
     return (
         <svg
             id="svg"
@@ -85,6 +89,31 @@ export const ProjectView = ({
             fill="black"
             style={inlineStyles}
         >
+            <style>
+                {
+                    /*css*/ `
+                    .label {
+                        font-family: helvetica, arial, sans-serif;
+                    }
+                    .labelForLightPiece {
+                        fill: black;
+                    }
+                    .strokeForLightPiece {
+                        fill: black;
+                        stroke: white;
+                        stroke-width: 2pt;
+                    }
+                    .labelForDarkPiece {
+                        fill: white;
+                    }
+                    .strokeForDarkPiece {
+                        fill: white;
+                        stroke: black;
+                        stroke-width: 2pt;
+                    }
+                    `
+                }
+            </style>
             {pieces.map((piece) => (
                 <PieceView
                     key={piece.id}
@@ -102,6 +131,26 @@ export const ProjectView = ({
                     nightMode={nightMode}
                 />
             ))}
+            {licenseText && (
+                <>
+                    <text
+                        x="20"
+                        y={project.height - 20}
+                        fontSize={12}
+                        className="strokeForLightPiece"
+                    >
+                        {licenseText}
+                    </text>
+                    <text
+                        x="20"
+                        y={project.height - 20}
+                        fontSize={12}
+                        className="labelForLightPiece"
+                    >
+                        {licenseText}
+                    </text>
+                </>
+            )}
         </svg>
     );
 };

@@ -31,7 +31,9 @@ function toTenth(n: number) {
 
 function preliminaryProjectToTheRealThing(
     preliminary: PreliminaryProject,
-    title: string
+    title: string,
+    copyright: string,
+    license: string
 ): Project {
     const glasses: Glass[] = preliminary.colors.map((color, i) => {
         return {
@@ -58,9 +60,11 @@ function preliminaryProjectToTheRealThing(
         name: title,
         width: preliminary.width,
         height: preliminary.height,
-        ppi: 72,
+        ppi: preliminary.ppi,
         dateCreated: new Date(),
         dateModified: new Date(),
+        copyright: copyright === '©' ? '' : copyright,
+        license: license,
     };
 }
 
@@ -69,9 +73,14 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
     const [title, setTitle] = useState(
         imageProcessor.upload.file?.name || 'Project'
     );
-
+    const [copyright, setCopyright] = useState(
+        `©${new Date().getFullYear()} Your Name`
+    );
+    const [license, setLicense] = useState(`All Rights Reserved`);
     const [height, setHeight] = useState(preliminaryProject.height);
     const [width, setWidth] = useState(preliminaryProject.width);
+
+    const { ppi } = preliminaryProject;
 
     const save = useCallback(async () => {
         if (savingInProgress) {
@@ -81,7 +90,9 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
         const db = await getDb();
         const project = preliminaryProjectToTheRealThing(
             preliminaryProject,
-            title
+            title,
+            copyright,
+            license
         );
         db.projects.put(project);
         setSavingInProgress(false);
@@ -102,22 +113,45 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
             </Form.Field>
             <Form.Field>
                 <label>
+                    Copyright
+                    <Input
+                        value={copyright}
+                        onChange={(event) => setCopyright(event.target.value)}
+                        onBlur={() =>
+                            copyright.trim() === '' && setCopyright('©')
+                        }
+                    />
+                </label>
+            </Form.Field>
+            <Form.Field>
+                <label>
+                    license
+                    <Input
+                        value={license}
+                        onChange={(event) => setLicense(event.target.value)}
+                    />
+                </label>
+            </Form.Field>{' '}
+            <Form.Field>
+                <label>
                     width
                     <Input
-                        value={(width / 72).toFixed(2)}
+                        value={(width / ppi).toFixed(2)}
                         label="in"
                         labelPosition="right"
-                        onChange={(event) => setWidth(+event.target.value * 72)}
+                        onChange={(event) =>
+                            setWidth(+event.target.value * ppi)
+                        }
                     />
                 </label>
                 <label>
                     height
                     <Input
-                        value={(height / 72).toFixed(2)}
+                        value={(height / ppi).toFixed(2)}
                         label="in"
                         labelPosition="right"
                         onChange={(event) =>
-                            setHeight(+event.target.value * 72)
+                            setHeight(+event.target.value * ppi)
                         }
                     />
                 </label>

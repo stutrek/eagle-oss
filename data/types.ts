@@ -45,6 +45,8 @@ export interface Project {
     ppi: number;
     dateCreated: Date;
     dateModified: Date;
+    copyright: string;
+    license: string;
 }
 
 export type PreliminaryColor = {
@@ -65,4 +67,5 @@ export type PreliminaryProject = {
     colors: PreliminaryColor[];
     width: number;
     height: number;
+    ppi: number;
 };

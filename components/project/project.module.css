@@ -7,10 +7,6 @@
     pointer-events: none;
 }
 
-.label {
-    font-family: Helvetica, Arial, sans-serif;
-}
-
 .piece {
     stroke: var(--came-color);
     stroke-width: 1px;

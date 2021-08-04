@@ -137,7 +137,8 @@ export const createPreliminaryProject = (
     return {
         shapes,
         colors: exportableColors,
-        width: originalImage.width,
-        height: originalImage.height,
+        width: originalImage.width * devicePixelRatio,
+        height: originalImage.height * devicePixelRatio,
+        ppi: 72 * devicePixelRatio,
     };
 };

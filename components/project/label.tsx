@@ -24,19 +24,10 @@ export const Label = ({
     const isDark = brightness < 127;
     const labelColor = isDark ? 'white' : 'black';
     const strokeColor = isDark ? 'black' : 'white';
-    const strokeWidth = '4pt';
+    const strokeWidth = '2pt';
 
-    const textStyles = {
-        fontFamily: 'helvetica, arial, sans-serif',
-        fill: labelColor,
-    };
-
-    const outlineStyles = {
-        fontFamily: 'helvetica, arial, sans-serif',
-        fill: strokeColor,
-        stroke: strokeColor,
-        strokeWidth,
-    };
+    const textClass = isDark ? 'labelForDarkPiece' : 'labelForLightPiece';
+    const strokeClass = isDark ? 'strokeForDarkPiece' : 'strokeForLightPiece';
 
     numberSize = Math.max(numberSize, piece.labelSize * 0.5);
     numberSize = Math.min(numberSize, piece.labelSize * 0.75);
@@ -45,7 +36,7 @@ export const Label = ({
     return (
         <g className={styles.labelGroup}>
             <text
-                className={styles.label}
+                className={`label ${strokeClass}`}
                 textAnchor="middle"
                 x={piece.labelCenter.x}
                 y={piece.labelCenter.y}
@@ -53,7 +44,6 @@ export const Label = ({
                 onClick={handlePieceClick}
                 style={{
                     fontSize: numberSize + 'px',
-                    ...outlineStyles,
                 }}
             >
                 {piece.label}
@@ -61,7 +51,7 @@ export const Label = ({
             {title.split('\n').map((line, i) => (
                 <text
                     key={`${i}-1`}
-                    className={styles.glassLabel}
+                    className={`label ${strokeClass}`}
                     textAnchor="middle"
                     x={piece.labelCenter.x}
                     y={piece.labelCenter.y + numberSize / 2 + labelSize * i}
@@ -69,15 +59,13 @@ export const Label = ({
                     onClick={handlePieceClick}
                     style={{
                         fontSize: labelSize + 'px',
-                        fontFamily: 'helvetica, arial, sans-serif',
-                        ...outlineStyles,
                     }}
                 >
                     {line}
                 </text>
             ))}
             <text
-                className={styles.label}
+                className={`label ${textClass}`}
                 textAnchor="middle"
                 x={piece.labelCenter.x}
                 y={piece.labelCenter.y}
@@ -85,7 +73,6 @@ export const Label = ({
                 onClick={handlePieceClick}
                 style={{
                     fontSize: numberSize + 'px',
-                    ...textStyles,
                 }}
             >
                 {piece.label}
@@ -93,7 +80,7 @@ export const Label = ({
             {title.split('\n').map((line, i) => (
                 <text
                     key={`${i}-2`}
-                    className={styles.glassLabel}
+                    className={`label ${textClass}`}
                     textAnchor="middle"
                     x={piece.labelCenter.x}
                     y={piece.labelCenter.y + numberSize / 2 + labelSize * i}
@@ -101,8 +88,6 @@ export const Label = ({
                     onClick={handlePieceClick}
                     style={{
                         fontSize: labelSize + 'px',
-                        fontFamily: 'helvetica, arial, sans-serif',
-                        ...textStyles,
                     }}
                 >
                     {line}
