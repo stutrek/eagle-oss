@@ -5,6 +5,7 @@
     grid-template-columns: 60px auto 60px;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
     position: relative;
+    z-index: 1;
 }
 
 .logoContainer {
