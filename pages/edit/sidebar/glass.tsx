@@ -45,13 +45,11 @@ export const GlassRow = ({
         () =>
             (event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                 const target = event.target as HTMLInputElement;
-                if (target.name in glass) {
-                    let newGlass = {
-                        ...glass,
-                        [target.name]: target.value,
-                    };
-                    projectMethods.updateGlass(newGlass);
-                }
+                let newGlass = {
+                    ...glass,
+                    [target.name]: target.value,
+                };
+                projectMethods.updateGlass(newGlass);
             },
         [glass, projectMethods]
     );

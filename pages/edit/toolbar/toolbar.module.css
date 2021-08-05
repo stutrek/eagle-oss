@@ -1,0 +1,15 @@
+.export label {
+    display: block;
+}
+
+.exportOptions {
+    display: flex;
+    flex-direction: row;
+}
+.exportOption {
+    flex: 0;
+    min-width: 100px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}

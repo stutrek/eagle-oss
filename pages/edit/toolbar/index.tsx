@@ -1,18 +1,29 @@
 import { useCallback } from 'react';
-import { Button, Checkbox, Form, Icon } from 'semantic-ui-react';
+import { Button, Checkbox, Form, Icon, Popup } from 'semantic-ui-react';
 
 import { Viewport } from '../../../components/viewport';
+import { Project } from '../../../data/types';
+import { ProjectMethods } from '../../../hooks/useProject';
 import { EditorState, EditorStateMethods } from '../useEditorState';
+import { Export } from './export';
 
 import styles from './toolbar.module.css';
 
 type Props = {
     editorState: EditorState;
     editorMethods: EditorStateMethods;
+    project: Project;
+    projectMethods: ProjectMethods;
     viewport: Viewport;
 };
 
-export function Toolbar({ editorState, viewport, editorMethods }: Props) {
+export function Toolbar({
+    editorState,
+    viewport,
+    editorMethods,
+    project,
+    projectMethods,
+}: Props) {
     const zoomIn = useCallback(() => {
         let nextLevel = Math.floor(viewport.zoom * 10 + 1) / 10;
         viewport.setZoom(nextLevel);
@@ -60,6 +71,18 @@ export function Toolbar({ editorState, viewport, editorMethods }: Props) {
                 />{' '}
                 {Math.round(viewport.zoom * 100)}%{' '}
                 <Button icon="plus" size="tiny" circular onClick={zoomIn} />
+            </div>
+            <hr />
+            <div>
+                <Popup
+                    trigger={<Button>Export</Button>}
+                    position="bottom right"
+                    on="click"
+                    hoverable
+                    flowing
+                >
+                    <Export project={project} projectMethods={projectMethods} />
+                </Popup>
             </div>
         </>
     );

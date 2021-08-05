@@ -90,6 +90,8 @@ const Editor = () => {
                     editorState={editorState}
                     editorMethods={editorMethods}
                     viewport={viewport}
+                    project={project}
+                    projectMethods={projectMethods}
                 />
             </Header>
 
@@ -105,7 +107,6 @@ const Editor = () => {
                         <div {...viewport.innerProps}>
                             <ProjectView
                                 inlineStyles={{ display: 'block' }}
-                                scale={1}
                                 project={project}
                                 nightMode={editorState.nightMode}
                                 showLabels={editorState.showLabels}

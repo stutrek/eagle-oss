@@ -15,7 +15,6 @@ interface ProjectProps {
     onPieceClick?: PieceClickCallback;
     className?: string;
     showLabels?: boolean;
-    scale?: number;
     interactive?: boolean;
     project: Project;
     highlightGlass?: string;
@@ -30,7 +29,6 @@ export const ProjectView = ({
     onPieceClick = (event: SyntheticEvent<Element>, pieceId: string) => {},
     className = '',
     showLabels = false,
-    scale = 1,
     interactive = true,
     nightMode = false,
     colorOverride,
@@ -65,8 +63,8 @@ export const ProjectView = ({
         [glasses]
     );
 
-    let width = project.width * scale;
-    let height = project.height * scale;
+    let width = project.width / project.ppi;
+    let height = project.height / project.ppi;
 
     let numberSize = project.ppi / 8;
     return (
@@ -78,8 +76,8 @@ export const ProjectView = ({
                 altIsDown ? styles.altDown : ''
             }`}
             version="1.1"
-            width={width + 'px'}
-            height={height + 'px'}
+            width={width + 'in'}
+            height={height + 'in'}
             viewBox={`0 0 ${project.width} ${project.height}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="black"
