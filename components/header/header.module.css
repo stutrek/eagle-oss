@@ -48,3 +48,9 @@
 .user {
     background-color: var(--light-blue);
 }
+
+.container :global(.ui.fitted.toggle.checkbox) {
+    margin: -10px 5px 0;
+    position: relative;
+    top: 6px;
+}

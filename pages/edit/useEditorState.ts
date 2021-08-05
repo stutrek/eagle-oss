@@ -51,7 +51,6 @@ const createMethods = (state: EditorState) => {
 
 export const useEditorState = (projectId: string | undefined) => {
     const [state, methods] = useMethods(createMethods, initialState);
-    console.log('recalculate', state);
     useEffect(() => {
         if (state !== initialState) {
             methods.reset();

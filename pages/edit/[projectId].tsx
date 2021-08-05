@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 
 import styles from './editor.module.css';
@@ -12,6 +12,9 @@ import { Sidebar } from './sidebar/sidebar';
 import { PieceClickCallback, ProjectView } from '../../components/project';
 import { useOnOffMachine } from '../../hooks/useOnOffMachine';
 import { useEditorState } from './useEditorState';
+import Link from 'next/link';
+import { useViewport } from '../../components/viewport';
+import { Toolbar } from './toolbar';
 
 interface Params {
     projectId: number;
@@ -29,11 +32,8 @@ const Editor = () => {
 
     const [editorState, editorMethods] = useEditorState(projectId);
 
-    const [sizeInfo, containerRef] = useMinZoom(project);
+    // const [sizeInfo, containerRef] = useMinZoom(project);
     const altDown = useAltKey();
-
-    const nightMode = useOnOffMachine('off');
-    const showLabels = useOnOffMachine('on');
 
     const handlePieceClick = useMemo<PieceClickCallback>(
         () => (event, pieceId) => {
@@ -54,7 +54,9 @@ const Editor = () => {
         [project, editorState.selection, projectMethods, editorMethods]
     );
 
-    if (isLoading || project === undefined || projectMethods === undefined) {
+    const viewport = useViewport();
+
+    if (isLoading) {
         return (
             <HeaderLayout>
                 <Header>
@@ -64,34 +66,56 @@ const Editor = () => {
             </HeaderLayout>
         );
     }
-
-    // const [isLoading, project, projectMethods] = projectBundle;
+    if (project === undefined || projectMethods === undefined) {
+        return (
+            <HeaderLayout>
+                <Header>
+                    <h1>Project Not Found</h1>
+                </Header>
+                <div className={styles.container}>
+                    <Link href="/">
+                        <a>Back to home</a>
+                    </Link>
+                </div>
+            </HeaderLayout>
+        );
+    }
 
     return (
         <HeaderLayout>
             <Header>
                 <h1>{project.name}</h1>
+                <div data-flex />
+                <Toolbar
+                    editorState={editorState}
+                    editorMethods={editorMethods}
+                    viewport={viewport}
+                />
             </Header>
 
-            <div className={styles.layout} ref={containerRef}>
+            <div className={styles.layout}>
                 <Sidebar
                     project={project}
                     editorState={editorState}
                     editorMethods={editorMethods}
                     projectMethods={projectMethods}
                 />
-                {sizeInfo.measured ? (
-                    <ProjectView
-                        scale={sizeInfo.minZoom}
-                        project={project}
-                        nightMode={nightMode.isOn}
-                        showLabels={showLabels.isOn}
-                        altIsDown={altDown}
-                        onPieceClick={handlePieceClick}
-                    />
-                ) : (
-                    'measuring...'
-                )}
+                <div className={styles.viewport}>
+                    <div {...viewport.outerProps}>
+                        <div {...viewport.innerProps}>
+                            <ProjectView
+                                inlineStyles={{ display: 'block' }}
+                                scale={1}
+                                project={project}
+                                nightMode={editorState.nightMode}
+                                showLabels={editorState.showLabels}
+                                altIsDown={altDown}
+                                onPieceClick={handlePieceClick}
+                                highlightGlass={editorState.highlight?.id}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         </HeaderLayout>
     );

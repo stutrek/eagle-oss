@@ -7,17 +7,12 @@ import {
 } from 'react';
 import { Project } from '../../data/types';
 
+type Action = ReturnType<typeof calculateState>;
 type CanvasState =
-    | {
-          measured: true;
-          width: number;
-          height: number;
-          minZoom: number;
-      }
+    | ({ measured: true } & Action)
     | {
           measured: false;
       };
-type Action = { width: number; height: number; minZoom: number };
 
 const reducer = (state: CanvasState, action: Action): CanvasState => {
     return {
@@ -26,7 +21,7 @@ const reducer = (state: CanvasState, action: Action): CanvasState => {
     };
 };
 
-const calculateState = (el: HTMLDivElement, project: Project): Action => {
+const calculateState = (el: HTMLDivElement, project: Project) => {
     const width = el.offsetWidth;
     const height = el.offsetHeight;
 
@@ -36,8 +31,10 @@ const calculateState = (el: HTMLDivElement, project: Project): Action => {
     const minZoom = Math.min(width / projectWidth, height / projectHeight);
 
     return {
-        height: height + projectHeight,
-        width: width + projectWidth,
+        height: height,
+        width: width,
+        scrollLeft: projectWidth > width ? (projectWidth - width) / 2 : 0,
+        scrollTop: projectHeight > height ? (projectHeight - height) / 2 : 0,
         minZoom,
     };
 };

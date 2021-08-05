@@ -65,8 +65,8 @@ export const ProjectView = ({
         [glasses]
     );
 
-    let width = (project.width / project.ppi) * scale;
-    let height = (project.height / project.ppi) * scale;
+    let width = project.width * scale;
+    let height = project.height * scale;
 
     let numberSize = project.ppi / 8;
     return (
@@ -78,8 +78,8 @@ export const ProjectView = ({
                 altIsDown ? styles.altDown : ''
             }`}
             version="1.1"
-            width={width + 'in'}
-            height={height + 'in'}
+            width={width + 'px'}
+            height={height + 'px'}
             viewBox={`0 0 ${project.width} ${project.height}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="black"

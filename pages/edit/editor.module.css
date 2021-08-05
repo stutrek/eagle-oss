@@ -119,3 +119,7 @@
 .glassSelected {
     composes: glass sidebarButtonSelected;
 }
+
+.viewport {
+    position: relative;
+}
