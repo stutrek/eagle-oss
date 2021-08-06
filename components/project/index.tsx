@@ -23,6 +23,8 @@ interface ProjectProps {
     grayscale?: boolean;
     inlineStyles?: any;
     altIsDown?: boolean;
+    height: string;
+    width: string;
 }
 
 export const ProjectView = ({
@@ -37,6 +39,8 @@ export const ProjectView = ({
     project,
     inlineStyles,
     altIsDown = false,
+    width = `${project.width / project.ppi}in`,
+    height = `${project.height / project.ppi}in`,
 }: ProjectProps) => {
     const { pieces, glasses } = project;
 
@@ -63,9 +67,6 @@ export const ProjectView = ({
         [glasses]
     );
 
-    let width = project.width / project.ppi;
-    let height = project.height / project.ppi;
-
     let numberSize = project.ppi / 8;
     return (
         <svg
@@ -76,8 +77,8 @@ export const ProjectView = ({
                 altIsDown ? styles.altDown : ''
             }`}
             version="1.1"
-            width={width + 'in'}
-            height={height + 'in'}
+            width={width}
+            height={height}
             viewBox={`0 0 ${project.width} ${project.height}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="black"

@@ -1,13 +1,16 @@
 import { ChangeEvent, SyntheticEvent, useCallback, useState } from 'react';
+import { render } from 'react-dom';
 import {
     Button,
     Checkbox,
     Dropdown,
     DropdownProps,
+    Icon,
     Input,
     Label,
 } from 'semantic-ui-react';
 import { Color, Grayscale, Outlines } from '../../../components/genericProject';
+import { ProjectView } from '../../../components/project';
 import { Project } from '../../../data/types';
 import { ProjectMethods } from '../../../hooks/useProject';
 
@@ -23,7 +26,7 @@ const unitOptions = [
     { key: 'cm', value: 'cm', text: 'cm' },
 ];
 
-export function Export({ project, projectMethods }: Props) {
+export function Export({ project }: Props) {
     const [units, setUnits] = useState('in');
     const [locked, setLocked] = useState(true);
 
@@ -89,11 +92,38 @@ export function Export({ project, projectMethods }: Props) {
         },
         [height, width, units]
     );
+
+    const renderProject = useCallback(
+        (event: SyntheticEvent<HTMLAnchorElement>) => {
+            const fixture = document.createElement('div');
+            const renderedProject = render(
+                <ProjectView
+                    height={`${height}${units}`}
+                    width={`${width}${units}`}
+                    project={project}
+                    showLabels={showLabels}
+                    colorOverride={
+                        colorSelection === 'outline' ? 'white' : undefined
+                    }
+                    grayscale={colorSelection === 'grayscale'}
+                />,
+                fixture
+            );
+            const svgString = fixture.innerHTML;
+
+            const href = `data:image/svg+xml;utf-8,${escape(svgString)}`;
+
+            event.currentTarget.href = href;
+            if (colorSelection === 'color') {
+                event.currentTarget.download = `${project.name}.svg`;
+            } else {
+                event.currentTarget.download = `${project.name} (${colorSelection}).svg`;
+            }
+        },
+        [project, units, height, width, showLabels, colorSelection]
+    );
     return (
         <div className={styles.export}>
-            <h2>Export {project.name}</h2>
-            <hr />
-            <h3>Size</h3>
             <div className={styles.sizeForm}>
                 <div className={styles.sizeContainer}>
                     <Input
@@ -143,7 +173,6 @@ export function Export({ project, projectMethods }: Props) {
                 </div>
             </div>
             <hr />
-            <h3>Color</h3>
             <div className={styles.exportOptions}>
                 <Button
                     basic={colorSelection !== 'color'}
@@ -171,7 +200,6 @@ export function Export({ project, projectMethods }: Props) {
                 </Button>
             </div>
             <hr />
-            <h3>More Options</h3>
             <Checkbox
                 toggle
                 checked={showLabels}
@@ -179,6 +207,10 @@ export function Export({ project, projectMethods }: Props) {
                 label="Labels"
             />
             <hr />
+            <Button fluid as="a" onMouseDown={renderProject}>
+                Download &nbsp;&nbsp;
+                <Icon name="download" />
+            </Button>
         </div>
     );
 }

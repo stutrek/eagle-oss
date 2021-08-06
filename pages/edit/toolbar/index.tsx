@@ -7,8 +7,6 @@ import { ProjectMethods } from '../../../hooks/useProject';
 import { EditorState, EditorStateMethods } from '../useEditorState';
 import { Export } from './export';
 
-import styles from './toolbar.module.css';
-
 type Props = {
     editorState: EditorState;
     editorMethods: EditorStateMethods;
@@ -75,12 +73,11 @@ export function Toolbar({
             <hr />
             <div>
                 <Popup
-                    trigger={<Button>Export</Button>}
+                    trigger={<Button>Download</Button>}
                     position="bottom right"
                     on="click"
                     hoverable
                     flowing
-                    open
                 >
                     <Export project={project} projectMethods={projectMethods} />
                 </Popup>
