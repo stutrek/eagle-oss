@@ -67,7 +67,7 @@ export const ProjectView = ({
         [glasses]
     );
 
-    let numberSize = project.ppi / 8;
+    let numberSize = project.ppi / 16;
     return (
         <svg
             id="svg"

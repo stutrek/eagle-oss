@@ -96,6 +96,14 @@ export const useViewport = () => {
 
             const scaledWidth = originalWidth * newZoom;
             const scaledHeight = originalHeight * newZoom;
+
+            console.log({
+                viewportWidth,
+                viewportHeight,
+                scaledWidth,
+                scaledHeight,
+            });
+
             let scrollTop = 0;
             let scrollLeft = 0;
             let marginTop = 0;
@@ -143,8 +151,8 @@ export const useViewport = () => {
             return;
         }
 
-        const contentWidth = innerEl.scrollWidth;
-        const contentHeight = innerEl.scrollHeight;
+        const contentWidth = innerEl.firstElementChild?.clientWidth || 0;
+        const contentHeight = innerEl.firstElementChild?.clientHeight || 0;
 
         setOriginalHeight(contentHeight);
         setOriginalWidth(contentWidth);

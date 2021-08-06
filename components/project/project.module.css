@@ -1,6 +1,7 @@
 .container {
     --came-color: black;
     background-color: var(--came-color);
+    display: block;
 }
 
 .nonInteractive {

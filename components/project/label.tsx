@@ -33,7 +33,7 @@ export const Label = ({
     if (titleLines.length > 1) {
         numberSize = numberSize * (1 - titleLines.length * 0.1);
     }
-    const labelSize = numberSize / 2;
+    const labelSize = numberSize / 4;
 
     let { x, y } = piece.labelCenter;
     y = y - (titleLines.length - 1) * (numberSize / 8);
@@ -59,7 +59,7 @@ export const Label = ({
                     className={`label ${strokeClass}`}
                     textAnchor="middle"
                     x={x}
-                    y={y + numberSize / 2 + labelSize * i}
+                    y={y + numberSize / 4 + labelSize * i}
                     data-id={piece.id}
                     onClick={handlePieceClick}
                     style={{
@@ -88,7 +88,7 @@ export const Label = ({
                     className={`label ${textClass}`}
                     textAnchor="middle"
                     x={x}
-                    y={y + numberSize / 2 + labelSize * i}
+                    y={y + numberSize / 4 + labelSize * i}
                     data-id={piece.id}
                     onClick={handlePieceClick}
                     style={{
