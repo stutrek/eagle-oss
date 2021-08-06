@@ -1,0 +1,17 @@
+.container svg {
+    width: 100%;
+    height: auto;
+}
+
+.grayscale,
+.outlines {
+    composes: container;
+}
+
+.grayscale {
+    filter: grayscale(1);
+}
+
+.outlines svg * {
+    fill: white;
+}
