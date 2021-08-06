@@ -80,6 +80,7 @@ export function Toolbar({
                     on="click"
                     hoverable
                     flowing
+                    open
                 >
                     <Export project={project} projectMethods={projectMethods} />
                 </Popup>

@@ -1,5 +1,5 @@
-.export label {
-    display: block;
+.export {
+    width: 300px;
 }
 
 .exportOptions {
@@ -12,4 +12,12 @@
     width: 100px;
     height: 100px;
     text-align: center;
+}
+.sizeForm {
+    width: 200px;
+    margin: auto;
+    text-align: center;
+}
+.sizeForm > :global(.ui.input) {
+    margin: 10px 0;
 }

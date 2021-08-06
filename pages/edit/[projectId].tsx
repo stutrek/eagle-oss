@@ -81,10 +81,18 @@ const Editor = () => {
         );
     }
 
+    const pieceCount = project.pieces.reduce(
+        (acc, piece) => (piece.glass ? acc + 1 : acc),
+        0
+    );
+
     return (
         <HeaderLayout>
             <Header>
                 <h1>{project.name}</h1>
+                <hr />
+                <div>{pieceCount} pieces</div>
+                <hr />
                 <div data-flex />
                 <Toolbar
                     editorState={editorState}

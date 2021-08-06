@@ -1,4 +1,5 @@
-import { Checkbox, Grid, Icon, Input } from 'semantic-ui-react';
+import { ChangeEvent, useCallback, useState } from 'react';
+import { Button, Dropdown, Input, Label } from 'semantic-ui-react';
 import { Project } from '../../../data/types';
 import { ProjectMethods } from '../../../hooks/useProject';
 
@@ -9,37 +10,110 @@ type Props = {
     projectMethods: ProjectMethods;
 };
 
+const unitOptions = [
+    { key: 'in', value: 'in', text: 'in' },
+    { key: 'cm', value: 'cm', text: 'cm' },
+];
+
 export function Export({ project, projectMethods }: Props) {
+    const [units, setUnits] = useState('in');
+    const [locked, setLocked] = useState(true);
+
+    const [width, setWidth] = useState(project.width / project.ppi);
+    const [height, setHeight] = useState(project.height / project.ppi);
+
+    const [aspectRatio, setAspectRatio] = useState(width / height);
+
+    const receiveWidth = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            const newWidth = +event.currentTarget.value;
+            setWidth(newWidth);
+
+            if (locked && newWidth) {
+                const newHeight = newWidth / aspectRatio;
+                if (newHeight !== Infinity) {
+                    setHeight(newHeight);
+                }
+            }
+            if (!locked) {
+                setAspectRatio(newWidth / height);
+            }
+        },
+        [height, width, locked, aspectRatio]
+    );
+    const receiveHeight = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            const newHeight = +event.currentTarget.value;
+            setHeight(newHeight);
+
+            if (locked && newHeight) {
+                const newWidth = newHeight * aspectRatio;
+                if (newWidth !== Infinity) {
+                    setWidth(newWidth);
+                }
+            }
+            if (!locked) {
+                setAspectRatio(width / newHeight);
+            }
+        },
+        [height, width, locked, aspectRatio]
+    );
     return (
         <div className={styles.export}>
             <h2>Export {project.name}</h2>
             <hr />
             <h3>Size</h3>
-            <label>
-                inches <Checkbox toggle /> cm
-            </label>
-            <br />
-            <label>
-                width:{' '}
+
+            <div className={styles.sizeForm}>
                 <Input
-                    value={(project.width / project.ppi).toFixed(2)}
-                    label={{ basic: true, content: 'in' }}
+                    value={parseFloat(width.toFixed(2)) || ''}
+                    onChange={receiveWidth}
                     labelPosition="right"
+                    type="text"
+                    fluid
+                >
+                    <Label basic>Width</Label>
+                    <input />
+                    <Label>
+                        <Dropdown
+                            onChange={(event, data) =>
+                                setUnits(data.value as 'in' | 'cm')
+                            }
+                            options={unitOptions}
+                            value={units}
+                            item
+                        />
+                    </Label>
+                </Input>
+
+                <Button
+                    icon={locked ? 'chain' : 'broken chain'}
+                    circular
+                    onClick={() => setLocked(!locked)}
                 />
-            </label>
-            <br />
-            <label>
-                <Icon name="chain" />
-            </label>
-            <br />
-            <label>
-                height:{' '}
+
                 <Input
-                    value={(project.height / project.ppi).toFixed(2)}
-                    label={{ basic: true, content: 'in' }}
+                    value={parseFloat(height.toFixed(2)) || ''}
+                    onChange={receiveHeight}
                     labelPosition="right"
-                />
-            </label>
+                    type="text"
+                    fluid
+                >
+                    <Label basic>Height</Label>
+                    <input />
+                    <Label>
+                        <Dropdown
+                            onChange={(event, data) =>
+                                setUnits(data.value as 'in' | 'cm')
+                            }
+                            options={unitOptions}
+                            value={units}
+                            item
+                        />
+                    </Label>
+                </Input>
+            </div>
+
             <hr />
             <h3>Download</h3>
             <div className={styles.exportOptions}>
