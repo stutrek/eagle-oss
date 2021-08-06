@@ -70,7 +70,8 @@ function getClassName(thing: any) {
 export const SvgImport = ({ imageProcessor }: Props) => {
     const { svgString, whiteSvgString, paths, preliminaryProject } =
         imageProcessor.svgImport;
-    const [colorOption, setColorOption] = useState<ColorControlOption>('white');
+    const [colorOption, setColorOption] =
+        useState<ColorControlOption>('original');
     return (
         <HeaderLayout>
             <Header>

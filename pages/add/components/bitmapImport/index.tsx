@@ -34,7 +34,8 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
         preliminaryProject,
     } = imageProcessor.bitmapImport;
 
-    const [colorOption, setColorOption] = useState<ColorControlOption>('white');
+    const [colorOption, setColorOption] =
+        useState<ColorControlOption>('original');
 
     const secondView = !paths && (outlineBitmap || stretchedBitmap);
     return (

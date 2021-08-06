@@ -38,11 +38,12 @@ async function traceImageBitmap(
                 const compoundPath = new paper.CompoundPath(
                     potrace.pathToString(path.curve, 1)
                 );
+
+                // without reversing the points, the area is negative.
+                compoundPath.reverse();
                 if (parentPath) {
                     parentPath.addChild(compoundPath);
                 } else {
-                    // without reversing the points, the area is negative.
-                    compoundPath.reverse();
                     if (compoundPath.area < maxArea) {
                         shapes.push(compoundPath);
                     }
