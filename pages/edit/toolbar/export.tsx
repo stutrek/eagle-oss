@@ -207,8 +207,8 @@ export function Export({ project }: Props) {
                 label="Labels"
             />
             <hr />
-            <Button fluid as="a" onMouseDown={renderProject}>
-                Download &nbsp;&nbsp;
+            <Button size="large" fluid as="a" onMouseDown={renderProject}>
+                Download File &nbsp;&nbsp;
                 <Icon name="download" />
             </Button>
         </div>

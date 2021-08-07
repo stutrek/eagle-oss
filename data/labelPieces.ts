@@ -17,6 +17,9 @@ export function labelPieces(inputPieces: Piece[], glasses: Glass[]) {
 
     let count = 0;
     for (const glass of glasses) {
+        if (!piecesByGlass[glass.id]) {
+            continue;
+        }
         piecesByGlass[glass.id] = piecesByGlass[glass.id].map((piece) => {
             const newlabel = `${++count}`;
             if (piece.label === newlabel) {

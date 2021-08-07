@@ -73,7 +73,11 @@ export function Toolbar({
             <hr />
             <div>
                 <Popup
-                    trigger={<Button>Download</Button>}
+                    trigger={
+                        <Button icon>
+                            Download <Icon name="triangle down" />
+                        </Button>
+                    }
                     position="bottom right"
                     on="click"
                     hoverable
