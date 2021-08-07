@@ -1,12 +1,4 @@
-import React, {
-    StyleHTMLAttributes,
-    useCallback,
-    useEffect,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const initialOuterStyles = {
     position: 'absolute',
@@ -20,6 +12,7 @@ const initialOuterStyles = {
 
 const initialInnerStyles = {
     margin: 'auto',
+    display: 'inline-block',
 } as const;
 
 function calculateCenterRatio(
@@ -91,18 +84,12 @@ export const useViewport = () => {
                       originalHeight,
                       zoom
                   );
+            console.log({ centerLeftRatio, centerTopRatio });
             const viewportWidth = outerEl.offsetWidth;
             const viewportHeight = outerEl.offsetHeight;
 
             const scaledWidth = originalWidth * newZoom;
             const scaledHeight = originalHeight * newZoom;
-
-            console.log({
-                viewportWidth,
-                viewportHeight,
-                scaledWidth,
-                scaledHeight,
-            });
 
             let scrollTop = 0;
             let scrollLeft = 0;
@@ -110,7 +97,17 @@ export const useViewport = () => {
             let marginLeft = 0;
 
             if (scaledWidth > viewportWidth) {
-                scrollLeft = (scaledWidth - viewportWidth) * centerLeftRatio;
+                const minCenterRatio = viewportWidth / 2 / scaledWidth;
+                const maxCenterRatio = 1 - minCenterRatio;
+
+                if (centerLeftRatio > maxCenterRatio) {
+                    scrollLeft = scaledWidth - viewportWidth;
+                } else if (centerLeftRatio < minCenterRatio) {
+                    scrollLeft = 0;
+                } else {
+                    scrollLeft =
+                        (scaledWidth - viewportWidth) * centerLeftRatio;
+                }
             }
             if (scaledWidth < viewportWidth) {
                 marginLeft = (viewportWidth - scaledWidth) * centerLeftRatio;
@@ -127,14 +124,14 @@ export const useViewport = () => {
                 ...innerStyles,
                 transform: `scale(${newZoom})`,
                 transformOrigin: '0 0',
-                height: scaledHeight,
-                width: scaledWidth,
-                margin: `${marginTop}px 0 0 ${marginLeft}px`,
+                // height: scaledHeight,
+                // width: scaledWidth,
             });
 
             setOuterStyles({
                 ...outerStyles,
                 visibility: 'visible',
+                padding: `${marginTop}px 0 0 ${marginLeft}px`,
             });
 
             requestAnimationFrame(() => {
