@@ -9,13 +9,15 @@ type CircleProps = {
     stretchState: UseImageBitmapReturn['stretchOptions'];
     setInterimCorner: UseImageBitmapReturn['setCorner'];
     setCorner: UseImageBitmapReturn['setCorner'];
+    zoom: number;
 };
 
 const useDrag = (
     originalLocation: Point,
     side: keyof UseImageBitmapReturn['stretchOptions'],
     setInterimCorner: UseImageBitmapReturn['setCorner'],
-    setCorner: UseImageBitmapReturn['setCorner']
+    setCorner: UseImageBitmapReturn['setCorner'],
+    zoom: number
 ) => {
     const [location, setInterimLocation] = useState(originalLocation);
 
@@ -37,8 +39,8 @@ const useDrag = (
                 xDelta = event.screenX - startingPoint[0];
                 yDelta = event.screenY - startingPoint[1];
                 setInterimLocation([
-                    originalLocation[0] + xDelta,
-                    originalLocation[1] + yDelta,
+                    originalLocation[0] + xDelta / zoom,
+                    originalLocation[1] + yDelta / zoom,
                 ]);
                 setInterimCorner(side, [
                     originalLocation[0] + xDelta,
@@ -78,18 +80,20 @@ export const Circle = ({
     stretchState,
     setCorner,
     setInterimCorner,
+    zoom,
 }: CircleProps) => {
     const { location, onMouseDown } = useDrag(
         stretchState[side],
         side,
         setInterimCorner,
-        setCorner
+        setCorner,
+        zoom
     );
     return (
         <circle
             cx={location[0]}
             cy={location[1]}
-            r="10"
+            r={10 / zoom}
             // @ts-ignore
             onMouseDown={onMouseDown}
             fill="#f99"

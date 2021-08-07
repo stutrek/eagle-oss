@@ -82,19 +82,30 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
                         </>
                     )}
                 </Sidebar>
-                {imageBitmap && (
-                    <ImageStretcher imageProcessor={imageProcessor} />
-                )}
-                {secondView && <CanvasWithBitmap imageBitmap={secondView} />}
-                {paths && stretchedBitmap && (
-                    <PathDisplay
-                        size={[stretchedBitmap.width, stretchedBitmap.height]}
-                        paths={paths}
-                        preliminaryProject={preliminaryProject}
-                        devicePixelRatio={1}
-                        colorOption={colorOption}
-                    />
-                )}
+                <div className={styles.content}>
+                    <div>
+                        {imageBitmap && (
+                            <ImageStretcher imageProcessor={imageProcessor} />
+                        )}
+                    </div>
+                    <div className={styles.importDisplay}>
+                        {secondView && (
+                            <CanvasWithBitmap imageBitmap={secondView} />
+                        )}
+                        {paths && stretchedBitmap && (
+                            <PathDisplay
+                                size={[
+                                    stretchedBitmap.width,
+                                    stretchedBitmap.height,
+                                ]}
+                                paths={paths}
+                                preliminaryProject={preliminaryProject}
+                                devicePixelRatio={1}
+                                colorOption={colorOption}
+                            />
+                        )}
+                    </div>
+                </div>
             </ContentWithSidebar>
         </HeaderLayout>
     );

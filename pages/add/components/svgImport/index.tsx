@@ -37,7 +37,7 @@ export const DisplaySvg = ({
 
     if (size && paths) {
         return (
-            <div className={styles.svgImportDisplay}>
+            <div className={styles.importDisplay}>
                 <PathDisplay
                     size={size}
                     paths={paths}
@@ -50,7 +50,7 @@ export const DisplaySvg = ({
     }
 
     return (
-        <div className={styles.svgImportDisplay}>
+        <div className={styles.importDisplay}>
             <img
                 src={`data:image/svg+xml,${escape(
                     whiteSvgString || svgString

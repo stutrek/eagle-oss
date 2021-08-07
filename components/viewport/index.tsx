@@ -49,7 +49,7 @@ function calculateCenterRatio(
     return [centerLeftRatio, centerTopRatio];
 }
 
-export const useViewport = () => {
+export const useViewport = (allowScroll = true) => {
     const [zoom, innerSetZoom] = useState(1);
     const [minZoom, setMinZoom] = useState(1);
     const [originalHeight, setOriginalHeight] = useState(0);
@@ -130,6 +130,7 @@ export const useViewport = () => {
 
             setOuterStyles({
                 ...outerStyles,
+                overflow: allowScroll ? 'auto' : 'hidden',
                 visibility: 'visible',
                 padding: `${marginTop}px 0 0 ${marginLeft}px`,
             });
