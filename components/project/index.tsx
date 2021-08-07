@@ -96,7 +96,7 @@ export const ProjectView = ({
                     .strokeForLightPiece {
                         fill: black;
                         stroke: white;
-                        stroke-width: 2pt;
+                        stroke-width: 3pt;
                     }
                     .labelForDarkPiece {
                         fill: white;
@@ -104,7 +104,7 @@ export const ProjectView = ({
                     .strokeForDarkPiece {
                         fill: white;
                         stroke: black;
-                        stroke-width: 2pt;
+                        stroke-width: 3pt;
                     }
                     `
                 }

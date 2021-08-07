@@ -1,5 +1,5 @@
+import chroma from 'chroma-js';
 import React, { SyntheticEvent } from 'react';
-import tinycolor from 'tinycolor2';
 import { Glass, Piece } from '../../data/types';
 
 interface LabelProps {
@@ -20,8 +20,8 @@ export const Label = ({
     pieceColor,
 }: LabelProps) => {
     let title = glass ? glass.title : '';
-    const brightness = tinycolor(pieceColor).getBrightness();
-    const isDark = brightness < 127;
+    const brightness = chroma(pieceColor).luminance();
+    const isDark = brightness < 0.4;
 
     const textClass = isDark ? 'labelForDarkPiece' : 'labelForLightPiece';
     const strokeClass = isDark ? 'strokeForDarkPiece' : 'strokeForLightPiece';
