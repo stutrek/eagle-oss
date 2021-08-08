@@ -18,6 +18,8 @@ class EagleDatabase extends Dexie {
             projects: 'id, name, owner, dateCreated, dateModified',
             users: 'id, firstName, lastName, email',
         });
+
+        this.projects = this.table('projects');
     }
 }
 
