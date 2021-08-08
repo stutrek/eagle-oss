@@ -1,7 +1,8 @@
 import router from 'next/router';
-import { FocusEvent, useCallback, useState } from 'react';
+import { FocusEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
+import { useSizeForm } from '../../../../components/sizeForm';
 
 import { getDb } from '../../../../data/db';
 import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
@@ -17,6 +18,8 @@ import {
 type Props = {
     preliminaryProject: PreliminaryProject;
     imageProcessor: ImageProcessorReturn;
+    setDisplayWidth: (newDisplayWidth: string) => any;
+    setDisplayHeight: (newDisplayHeight: string) => any;
 };
 
 function arrayToPoint(arr: [number, number]): Point {
@@ -26,16 +29,15 @@ function arrayToPoint(arr: [number, number]): Point {
     };
 }
 
-function toTenth(n: number) {
-    return Math.round(n * 10) / 10;
-}
-
 function preliminaryProjectToTheRealThing(
     preliminary: PreliminaryProject,
     title: string,
     copyright: string | undefined,
     license: string | undefined,
-    link: string | undefined
+    link: string | undefined,
+    displayWidth: number,
+    displayHeight: number,
+    displayUnits: string
 ): Project {
     const glasses: Glass[] = preliminary.colors.map((color, i) => {
         return {
@@ -71,21 +73,40 @@ function preliminaryProjectToTheRealThing(
         copyright: copyright === '©' ? '' : copyright,
         license,
         link,
+        displayWidth: `${displayWidth}${displayUnits}`,
+        displayHeight: `${displayHeight}${displayUnits}`,
     };
 }
 
-export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
+export function SaveForm({
+    preliminaryProject,
+    imageProcessor,
+    setDisplayWidth,
+    setDisplayHeight,
+}: Props) {
     const [savingInProgress, setSavingInProgress] = useState(false);
     const [title, setTitle] = useState(
         imageProcessor.upload.file?.name.replace(/\.[^.]+$/, '') || 'Project'
     );
     const [copyright, setCopyright] = useState<string | undefined>(undefined);
-    const [license, setLicense] = useState(`All Rights Reserved`);
+    const [license, setLicense] = useState(``);
     const [link, setLink] = useState<string | undefined>();
-    const [height, setHeight] = useState(preliminaryProject.height);
-    const [width, setWidth] = useState(preliminaryProject.width);
 
-    const { ppi } = preliminaryProject;
+    const { height, width, units, sizeForm } = useSizeForm(
+        preliminaryProject.width,
+        preliminaryProject.height,
+        preliminaryProject.ppi
+    );
+
+    console.log({ height, width, units });
+
+    useEffect(() => {
+        setDisplayWidth(`${width}${units}`);
+    }, [width, units]);
+
+    useEffect(() => {
+        setDisplayHeight(`${height}${units}`);
+    }, [height, units]);
 
     const save = useCallback(async () => {
         if (savingInProgress) {
@@ -98,12 +119,15 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
             title,
             copyright,
             license,
-            link
+            link,
+            width,
+            height,
+            units
         );
         db.projects.put(project);
         setSavingInProgress(false);
         router.push(`/edit/${project.id}`);
-    }, [preliminaryProject, savingInProgress, title]);
+    }, [preliminaryProject, savingInProgress, title, width, height, units]);
 
     return (
         <Form>
@@ -151,6 +175,7 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
                 <label>
                     license
                     <Input
+                        placeholder="e.g. Creative Commons"
                         value={license}
                         onChange={(event) => setLicense(event.target.value)}
                     />
@@ -160,35 +185,13 @@ export function SaveForm({ preliminaryProject, imageProcessor }: Props) {
                 <label>
                     link
                     <Input
+                        placeholder="http://your.website"
                         value={link}
                         onChange={(event) => setLink(event.target.value)}
                     />
                 </label>
             </Form.Field>
-            <Form.Field>
-                <label>
-                    width
-                    <Input
-                        value={(width / ppi).toFixed(2)}
-                        label="in"
-                        labelPosition="right"
-                        onChange={(event) =>
-                            setWidth(+event.target.value * ppi)
-                        }
-                    />
-                </label>
-                <label>
-                    height
-                    <Input
-                        value={(height / ppi).toFixed(2)}
-                        label="in"
-                        labelPosition="right"
-                        onChange={(event) =>
-                            setHeight(+event.target.value * ppi)
-                        }
-                    />
-                </label>
-            </Form.Field>
+            <Form.Field>{sizeForm}</Form.Field>
             <Form.Field>
                 <Button fluid onClick={save}>
                     Save

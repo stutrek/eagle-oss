@@ -12,19 +12,31 @@
     margin: 15px;
     border: 1px solid var(--silver);
     text-align: center;
-    padding: 5px;
     text-decoration: none;
     color: var(--black);
     line-height: 1.4;
     border-radius: 3px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-direction: column;
+    background-color: var(--light-grey);
 }
-.libraryItem svg {
-    max-width: 100%;
+.libraryItem .imageContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 265px;
+}
+.libraryItem img {
+    display: block;
+    max-width: 90%;
     max-height: 90%;
 }
-.libraryItem path {
-    stroke-size: 1px;
-    stroke: black;
+.libraryItem .label {
+    flex: 0;
+    padding: 5px;
 }
 
 .addItem {

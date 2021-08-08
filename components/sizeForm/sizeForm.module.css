@@ -1,0 +1,18 @@
+.sizeForm {
+    text-align: center;
+    position: relative;
+}
+
+.sizeForm > div > :global(.ui.input:first-child) {
+    margin: 0 0 15px;
+}
+
+.sizeContainer {
+}
+
+.lockContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

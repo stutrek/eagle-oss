@@ -84,7 +84,7 @@ export const useViewport = (allowScroll = true) => {
                       originalHeight,
                       zoom
                   );
-            console.log({ centerLeftRatio, centerTopRatio });
+
             const viewportWidth = outerEl.offsetWidth;
             const viewportHeight = outerEl.offsetHeight;
 

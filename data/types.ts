@@ -43,6 +43,8 @@ export interface Project {
     width: number;
     height: number;
     ppi: number;
+    displayWidth: string;
+    displayHeight: string;
     dateCreated: Date;
     dateModified: Date;
     copyright?: string;

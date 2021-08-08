@@ -97,7 +97,7 @@ export const Label = ({
                 >
                     {line}
                 </text>
-            ))}{' '}
+            ))}
         </g>
     );
 };

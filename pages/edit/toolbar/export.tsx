@@ -11,6 +11,8 @@ import {
 } from 'semantic-ui-react';
 import { Color, Grayscale, Outlines } from '../../../components/genericProject';
 import { ProjectView } from '../../../components/project';
+import { useSizeForm } from '../../../components/sizeForm';
+import { rawRenderProject } from '../../../data/projectString';
 import { Project } from '../../../data/types';
 import { ProjectMethods } from '../../../hooks/useProject';
 
@@ -21,97 +23,29 @@ type Props = {
     projectMethods: ProjectMethods;
 };
 
-const unitOptions = [
-    { key: 'in', value: 'in', text: 'in' },
-    { key: 'cm', value: 'cm', text: 'cm' },
-];
-
 export function Export({ project }: Props) {
-    const [units, setUnits] = useState('in');
-    const [locked, setLocked] = useState(true);
-
-    const [width, setWidth] = useState(project.width / project.ppi);
-    const [height, setHeight] = useState(project.height / project.ppi);
-
-    const [aspectRatio, setAspectRatio] = useState(width / height);
-
     const [colorSelection, setColorSelection] = useState<
         'color' | 'outline' | 'grayscale'
     >('color');
 
     const [showLabels, setShowLabels] = useState(true);
 
-    const receiveWidth = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => {
-            const newWidth = +event.currentTarget.value;
-            setWidth(newWidth);
-
-            if (locked && newWidth) {
-                const newHeight = newWidth / aspectRatio;
-                if (newHeight !== Infinity) {
-                    setHeight(newHeight);
-                }
-            }
-            if (!locked) {
-                setAspectRatio(newWidth / height);
-            }
-        },
-        [height, width, locked, aspectRatio]
-    );
-    const receiveHeight = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => {
-            const newHeight = +event.currentTarget.value;
-            setHeight(newHeight);
-
-            if (locked && newHeight) {
-                const newWidth = newHeight * aspectRatio;
-                if (newWidth !== Infinity) {
-                    setWidth(newWidth);
-                }
-            }
-            if (!locked) {
-                setAspectRatio(width / newHeight);
-            }
-        },
-        [height, width, locked, aspectRatio]
-    );
-
-    const receiveUnits = useCallback(
-        (event: SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
-            const newUnit = data.value as 'in' | 'cm';
-
-            if (newUnit === units) {
-                return;
-            }
-
-            const ratio = newUnit === 'cm' ? 2.54 : 1 / 2.54;
-
-            setUnits(newUnit);
-            setWidth(width * ratio);
-            setHeight(height * ratio);
-        },
-        [height, width, units]
+    const { height, width, units, sizeForm } = useSizeForm(
+        project.width,
+        project.height,
+        project.ppi
     );
 
     const renderProject = useCallback(
-        (event: SyntheticEvent<HTMLAnchorElement>) => {
-            const fixture = document.createElement('div');
-            const renderedProject = render(
-                <ProjectView
-                    height={`${height}${units}`}
-                    width={`${width}${units}`}
-                    project={project}
-                    showLabels={showLabels}
-                    colorOverride={
-                        colorSelection === 'outline' ? 'white' : undefined
-                    }
-                    grayscale={colorSelection === 'grayscale'}
-                />,
-                fixture
+        async (event: SyntheticEvent<HTMLAnchorElement>) => {
+            const href = await rawRenderProject(
+                project,
+                colorSelection,
+                showLabels,
+                '2pt',
+                `${width}${units}`,
+                `${height}${units}`
             );
-            const svgString = fixture.innerHTML;
-
-            const href = `data:image/svg+xml;utf-8,${escape(svgString)}`;
 
             event.currentTarget.href = href;
             if (colorSelection === 'color') {
@@ -124,54 +58,7 @@ export function Export({ project }: Props) {
     );
     return (
         <div className={styles.export}>
-            <div className={styles.sizeForm}>
-                <div className={styles.sizeContainer}>
-                    <Input
-                        value={parseFloat(width.toFixed(2)) || ''}
-                        onChange={receiveWidth}
-                        labelPosition="right"
-                        type="text"
-                        fluid
-                    >
-                        <Label basic>Width</Label>
-                        <input />
-                        <Label>
-                            <Dropdown
-                                onChange={receiveUnits}
-                                options={unitOptions}
-                                value={units}
-                                item
-                            />
-                        </Label>
-                    </Input>
-
-                    <Input
-                        value={parseFloat(height.toFixed(2)) || ''}
-                        onChange={receiveHeight}
-                        labelPosition="right"
-                        type="text"
-                        fluid
-                    >
-                        <Label basic>Height</Label>
-                        <input />
-                        <Label>
-                            <Dropdown
-                                onChange={receiveUnits}
-                                options={unitOptions}
-                                value={units}
-                                item
-                            />
-                        </Label>
-                    </Input>
-                </div>
-                <div className={styles.lockContainer}>
-                    <Button
-                        icon={locked ? 'chain' : 'broken chain'}
-                        circular
-                        onClick={() => setLocked(!locked)}
-                    />
-                </div>
-            </div>
+            {sizeForm}
             <hr />
             <div className={styles.exportOptions}>
                 <Button

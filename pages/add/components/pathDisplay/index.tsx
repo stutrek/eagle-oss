@@ -5,6 +5,7 @@ import { PreliminaryProject, PreliminaryShape } from '../../../../data/types';
 import { ColorControlOption } from '../colorControls';
 
 import styles from './pathdisplay.module.css';
+import { useViewport } from '../../../../components/viewport';
 
 type PathDisplayProps = {
     paths: string[];
@@ -12,6 +13,8 @@ type PathDisplayProps = {
     preliminaryProject?: PreliminaryProject;
     devicePixelRatio: number;
     colorOption: ColorControlOption;
+    displayWidth?: string;
+    displayHeight?: string;
 };
 
 export function PathDisplay({
@@ -20,6 +23,8 @@ export function PathDisplay({
     preliminaryProject,
     devicePixelRatio,
     colorOption,
+    displayWidth,
+    displayHeight,
 }: PathDisplayProps) {
     const colors = useMemo(() => {
         if (!preliminaryProject) {
@@ -54,36 +59,46 @@ export function PathDisplay({
         },
         [colors, colorOption, size]
     );
+    const viewport = useViewport();
 
     if (preliminaryProject && colors) {
         const { shapes } = preliminaryProject;
         return (
-            <svg
-                width={size[0] / devicePixelRatio}
-                height={size[1] / devicePixelRatio}
-                viewBox={`0 0 ${size[0]} ${size[1]}`}
-                className={styles.svgContainer}
-            >
-                {shapes.map((shape) => (
-                    <path
-                        key={shape.path}
-                        d={shape.path}
-                        fill={getColor(shape)}
-                    />
-                ))}
-            </svg>
+            <div {...viewport.outerProps}>
+                <div {...viewport.innerProps}>
+                    <svg
+                        width={displayWidth || size[0] / devicePixelRatio}
+                        height={displayHeight || size[1] / devicePixelRatio}
+                        viewBox={`0 0 ${size[0]} ${size[1]}`}
+                        className={styles.svgContainer}
+                        preserveAspectRatio="none"
+                    >
+                        {shapes.map((shape) => (
+                            <path
+                                key={shape.path}
+                                d={shape.path}
+                                fill={getColor(shape)}
+                            />
+                        ))}
+                    </svg>
+                </div>
+            </div>
         );
     }
 
     return (
-        <svg
-            width={size[0] / devicePixelRatio}
-            height={size[1] / devicePixelRatio}
-            viewBox={`0 0 ${size[0]} ${size[1]}`}
-        >
-            {paths.map((path) => (
-                <path key={path} d={path} />
-            ))}
-        </svg>
+        <div {...viewport.outerProps}>
+            <div {...viewport.innerProps}>
+                <svg
+                    width={size[0] / devicePixelRatio}
+                    height={size[1] / devicePixelRatio}
+                    viewBox={`0 0 ${size[0]} ${size[1]}`}
+                >
+                    {paths.map((path) => (
+                        <path key={path} d={path} />
+                    ))}
+                </svg>
+            </div>
+        </div>
     );
 }

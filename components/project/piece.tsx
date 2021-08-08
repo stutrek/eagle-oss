@@ -61,7 +61,7 @@ export const PieceView = (props: PieceProps) => {
     return (
         <g>
             <path
-                className={className}
+                className={`piece ${className}`}
                 d={piece.d}
                 fill={color}
                 stroke="black"

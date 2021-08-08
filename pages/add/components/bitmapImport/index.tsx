@@ -37,6 +37,9 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
     const [colorOption, setColorOption] =
         useState<ColorControlOption>('original');
 
+    const [displayWidth, setDisplayWidth] = useState<string | undefined>();
+    const [displayHeight, setDisplayHeight] = useState<string | undefined>();
+
     const secondView = !paths && (outlineBitmap || stretchedBitmap);
     return (
         <HeaderLayout>
@@ -78,6 +81,8 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
                             <SaveForm
                                 preliminaryProject={preliminaryProject}
                                 imageProcessor={imageProcessor}
+                                setDisplayWidth={setDisplayWidth}
+                                setDisplayHeight={setDisplayHeight}
                             />
                         </>
                     )}
@@ -98,6 +103,8 @@ export const BitmapImport = ({ imageProcessor }: Props) => {
                                     stretchedBitmap.width,
                                     stretchedBitmap.height,
                                 ]}
+                                displayWidth={displayWidth}
+                                displayHeight={displayHeight}
                                 paths={paths}
                                 preliminaryProject={preliminaryProject}
                                 devicePixelRatio={1}

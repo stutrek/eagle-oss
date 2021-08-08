@@ -1,5 +1,6 @@
 import React, { useCallback, SyntheticEvent, useMemo } from 'react';
 import { Glass, Project } from '../../data/types';
+import { useViewport } from '../viewport';
 import { LicenseText } from './licenseText';
 
 import { PieceView } from './piece';
@@ -22,9 +23,10 @@ interface ProjectProps {
     colorOverride?: string;
     grayscale?: boolean;
     inlineStyles?: any;
+    strokeWidth?: string;
     altIsDown?: boolean;
-    height: string;
-    width: string;
+    displayHeight?: string;
+    displayWidth?: string;
 }
 
 export const ProjectView = ({
@@ -38,9 +40,11 @@ export const ProjectView = ({
     highlightGlass,
     project,
     inlineStyles,
+    strokeWidth = '1px',
     altIsDown = false,
-    width = `${project.width / project.ppi}in`,
-    height = `${project.height / project.ppi}in`,
+    displayWidth = project.displayWidth || `${project.width / project.ppi}in`,
+    displayHeight = project.displayHeight ||
+        `${project.height / project.ppi}in`,
 }: ProjectProps) => {
     const { pieces, glasses } = project;
 
@@ -77,9 +81,10 @@ export const ProjectView = ({
                 altIsDown ? styles.altDown : ''
             }`}
             version="1.1"
-            width={width}
-            height={height}
+            width={displayWidth}
+            height={displayHeight}
             viewBox={`0 0 ${project.width} ${project.height}`}
+            preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
             fill="black"
             style={inlineStyles}
@@ -96,7 +101,7 @@ export const ProjectView = ({
                     .strokeForLightPiece {
                         fill: black;
                         stroke: white;
-                        stroke-width: 3pt;
+                        stroke-width: 2pt;
                     }
                     .labelForDarkPiece {
                         fill: white;
@@ -104,7 +109,10 @@ export const ProjectView = ({
                     .strokeForDarkPiece {
                         fill: white;
                         stroke: black;
-                        stroke-width: 3pt;
+                        stroke-width: 2pt;
+                    }
+                    .piece {
+                        stroke-width: ${strokeWidth};
                     }
                     `
                 }

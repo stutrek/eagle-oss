@@ -13,23 +13,3 @@
 .exportOptions button svg {
     width: 55px;
 }
-
-.sizeForm {
-    text-align: center;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.sizeForm > div > :global(.ui.input) {
-    margin: 10px 0 0;
-}
-
-.sizeContainer {
-    flex: 1;
-    padding: 0 20px 0 0;
-}
-.lockContainer {
-    width: 30px;
-    flex: 0;
-}

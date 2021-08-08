@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import Logo from '../logos/logo small text.svg';
 
@@ -11,9 +12,11 @@ interface HeaderProps {
 export const Header = (props: HeaderProps) => {
     return (
         <div className={styles.container + ' ' + (props.className ?? '')}>
-            <a className={styles.logoContainer} href="/">
-                <Logo className={styles.logo} />
-            </a>
+            <Link href="/">
+                <a className={styles.logoContainer}>
+                    <Logo className={styles.logo} />
+                </a>
+            </Link>
             <div className={styles.content}>{props.children}</div>
         </div>
     );
