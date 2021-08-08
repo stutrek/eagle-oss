@@ -22,11 +22,15 @@ type Props = {
 type DisplaySvgProps = {
     imageProcessor: ImageProcessorReturn;
     colorOption: ColorControlOption;
+    displayWidth?: string;
+    displayHeight?: string;
 };
 
 export const DisplaySvg = ({
     imageProcessor,
     colorOption,
+    displayWidth,
+    displayHeight,
 }: DisplaySvgProps) => {
     const { svgString, whiteSvgString, paths, size, preliminaryProject } =
         imageProcessor.svgImport;
@@ -44,6 +48,8 @@ export const DisplaySvg = ({
                     preliminaryProject={preliminaryProject}
                     colorOption={colorOption}
                     devicePixelRatio={window.devicePixelRatio}
+                    displayWidth={displayWidth}
+                    displayHeight={displayHeight}
                 />
             </div>
         );
@@ -72,6 +78,10 @@ export const SvgImport = ({ imageProcessor }: Props) => {
         imageProcessor.svgImport;
     const [colorOption, setColorOption] =
         useState<ColorControlOption>('original');
+
+    const [displayWidth, setDisplayWidth] = useState<string | undefined>();
+    const [displayHeight, setDisplayHeight] = useState<string | undefined>();
+
     return (
         <HeaderLayout>
             <Header>
@@ -105,6 +115,8 @@ export const SvgImport = ({ imageProcessor }: Props) => {
                             <SaveForm
                                 preliminaryProject={preliminaryProject}
                                 imageProcessor={imageProcessor}
+                                setDisplayWidth={setDisplayWidth}
+                                setDisplayHeight={setDisplayHeight}
                             />
                         </>
                     )}
@@ -112,6 +124,8 @@ export const SvgImport = ({ imageProcessor }: Props) => {
                 <DisplaySvg
                     imageProcessor={imageProcessor}
                     colorOption={colorOption}
+                    displayWidth={displayWidth}
+                    displayHeight={displayHeight}
                 />
             </ContentWithSidebar>
         </HeaderLayout>
