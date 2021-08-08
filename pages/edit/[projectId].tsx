@@ -46,12 +46,15 @@ const Editor = () => {
                 return;
             }
             if (altDown) {
-                editorMethods.selectGlass(piece.glass);
+                const glass = project.glasses.find(
+                    (glass) => glass.id === piece.glass
+                );
+                editorMethods.selectGlass(glass);
             } else {
                 projectMethods.changePieceGlass(piece, editorState.selection);
             }
         },
-        [project, editorState.selection, projectMethods, editorMethods]
+        [project, editorState.selection, projectMethods, editorMethods, altDown]
     );
 
     const viewport = useViewport();
