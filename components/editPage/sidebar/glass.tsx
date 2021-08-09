@@ -14,12 +14,6 @@ type Props = {
     projectMethods: ProjectMethods;
 };
 
-interface MenuItem {
-    key: string;
-    text: string;
-    icon?: string;
-}
-
 const colorToHex = (color: Glass['color']) => {
     if (Array.isArray(color)) {
         return chroma.lch(...color).hex();
@@ -64,7 +58,7 @@ export const GlassRow = ({
         () => () => {
             editorMethods.highlightGlass(undefined);
         },
-        [glass, editorMethods]
+        [editorMethods]
     );
 
     const moreOptionsMenu = useMemo(

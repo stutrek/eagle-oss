@@ -14,10 +14,6 @@ import { useEditorState } from '../../components/editPage/useEditorState';
 import { useViewport } from '../../components/viewport';
 import { Toolbar } from '../../components/editPage/toolbar';
 
-interface Params {
-    projectId: number;
-}
-
 const Editor = () => {
     const router = useRouter();
     let { projectId } = router.query;

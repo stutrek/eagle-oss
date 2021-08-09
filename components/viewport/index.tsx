@@ -141,7 +141,18 @@ export const useViewport = (allowScroll = true) => {
 
             innerSetZoom(newZoom);
         },
-        [innerEl, outerEl, originalWidth, originalHeight, zoom]
+        [
+            innerEl,
+            outerEl,
+            originalWidth,
+            originalHeight,
+            innerStyles,
+            setInnerStyles,
+            outerStyles,
+            setOuterStyles,
+            allowScroll,
+            zoom,
+        ]
     );
 
     useEffect(() => {
@@ -169,7 +180,7 @@ export const useViewport = (allowScroll = true) => {
         setMinZoom(calculatedZoom);
 
         setZoom(calculatedZoom, true);
-    }, [originalWidth, originalHeight]);
+    }, [originalWidth, originalHeight, outerEl, setZoom]);
 
     return {
         outerProps: { ref: outerRef, style: outerStyles },

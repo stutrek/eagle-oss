@@ -1,4 +1,4 @@
-import React, { CSSProperties, SyntheticEvent, useMemo } from 'react';
+import React, { SyntheticEvent, useMemo } from 'react';
 import { Label } from './label';
 import { Glass, Piece } from '../../data/types';
 import chroma from 'chroma-js';

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Button, Checkbox, Form, Icon, Popup } from 'semantic-ui-react';
+import { Button, Checkbox, Icon, Popup } from 'semantic-ui-react';
 
 import { Viewport } from '../../../components/viewport';
 import { Project } from '../../../data/types';
@@ -25,6 +25,7 @@ export function Toolbar({
     const zoomIn = useCallback(() => {
         const nextLevel = Math.floor(viewport.zoom * 10 + 1) / 10;
         viewport.setZoom(nextLevel);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewport.zoom]);
     const zoomOut = useCallback(() => {
         const nextLevel = Math.max(
@@ -32,6 +33,7 @@ export function Toolbar({
             Math.floor(viewport.zoom * 10 - 1) / 10
         );
         viewport.setZoom(nextLevel);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewport.zoom]);
 
     return (
@@ -41,7 +43,7 @@ export function Toolbar({
                 <Checkbox
                     toggle
                     checked={editorState.nightMode}
-                    onChange={(event) =>
+                    onChange={() =>
                         editorMethods.setNightMode(!editorState.nightMode)
                     }
                 />
@@ -52,7 +54,7 @@ export function Toolbar({
                 <Checkbox
                     toggle
                     checked={editorState.showLabels}
-                    onChange={(event) =>
+                    onChange={() =>
                         editorMethods.setShowLabels(!editorState.showLabels)
                     }
                 />{' '}

@@ -23,7 +23,7 @@ const useDrag = (
 
     useEffect(() => {
         setInterimLocation(originalLocation);
-    }, originalLocation);
+    }, originalLocation); // eslint-disable-line
 
     const [isDragging, setIsDragging] = useState(false);
     const [startingPoint, setStartingPoint] = useState<Point | undefined>();
@@ -62,7 +62,7 @@ const useDrag = (
             window.addEventListener('mousemove', windowMoveListener);
             window.addEventListener('mouseup', windowUpListener);
         }
-    }, [isDragging]);
+    }, [isDragging]); // eslint-disable-line
 
     const onMouseDown = (event: MouseEvent) => {
         setIsDragging(true);

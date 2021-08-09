@@ -102,11 +102,11 @@ export function SaveForm({
 
     useEffect(() => {
         setDisplayWidth(`${width}${units}`);
-    }, [width, units]);
+    }, [width, units, setDisplayWidth]);
 
     useEffect(() => {
         setDisplayHeight(`${height}${units}`);
-    }, [height, units]);
+    }, [height, units, setDisplayHeight]);
 
     const save = useCallback(async () => {
         if (savingInProgress) {
@@ -127,7 +127,17 @@ export function SaveForm({
         db.projects.put(project);
         setSavingInProgress(false);
         router.push(`/edit/${project.id}`);
-    }, [preliminaryProject, savingInProgress, title, width, height, units]);
+    }, [
+        preliminaryProject,
+        savingInProgress,
+        title,
+        width,
+        height,
+        units,
+        copyright,
+        license,
+        link,
+    ]);
 
     return (
         <Form>

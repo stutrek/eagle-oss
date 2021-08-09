@@ -3,9 +3,7 @@ import Link from 'next/link';
 import { Button, Icon } from 'semantic-ui-react';
 import { Header } from '../components/header';
 import { HeaderLayout } from '../components/layout';
-import { ProjectView } from '../components/project';
 import { ProjectImg } from '../components/project/img';
-import { renderProject } from '../data/projectString';
 import { useAllProjects } from '../hooks/useAllProjects';
 
 import styles from '../styles/Home.module.css';

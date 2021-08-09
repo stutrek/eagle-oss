@@ -55,7 +55,7 @@ export const useEditorState = (projectId: string | undefined) => {
         if (state !== initialState) {
             methods.reset();
         }
-    }, [projectId]);
+    }, [projectId, state, methods]);
 
     return [state, methods] as const;
 };
