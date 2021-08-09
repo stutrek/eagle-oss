@@ -93,9 +93,8 @@ export function SaveForm({
     const [link, setLink] = useState<string | undefined>();
 
     const { height, width, units, sizeForm } = useSizeForm(
-        preliminaryProject.width,
-        preliminaryProject.height,
-        preliminaryProject.ppi
+        `${preliminaryProject.width / preliminaryProject.ppi}in`,
+        `${preliminaryProject.height / preliminaryProject.ppi}in`
     );
 
     useEffect(() => {

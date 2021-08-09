@@ -13,16 +13,14 @@ const unitOptions = [
     { key: 'cm', value: 'cm', text: 'cm' },
 ];
 
-export function useSizeForm(
-    initialWidth: number,
-    initialHeight: number,
-    initialPpi: number
-) {
-    const [units, setUnits] = useState('in');
+export function useSizeForm(initialWidth: string, initialHeight: string) {
+    const [units, setUnits] = useState(
+        initialWidth.includes('in') ? 'in' : 'cm'
+    );
     const [locked, setLocked] = useState(true);
 
-    const [width, setWidth] = useState(initialWidth / initialPpi);
-    const [height, setHeight] = useState(initialHeight / initialPpi);
+    const [width, setWidth] = useState(parseFloat(initialWidth));
+    const [height, setHeight] = useState(parseFloat(initialHeight));
 
     const [aspectRatio, setAspectRatio] = useState(width / height);
 

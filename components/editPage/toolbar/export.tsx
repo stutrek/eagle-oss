@@ -21,13 +21,13 @@ export function Export({ project }: Props) {
     const [showLabels, setShowLabels] = useState(true);
 
     const { height, width, units, sizeForm } = useSizeForm(
-        project.width,
-        project.height,
-        project.ppi
+        project.displayWidth || `${project.width / project.ppi}in`,
+        project.displayHeight || `${project.height / project.ppi}in`
     );
 
     const renderProject = useCallback(
         async (event: SyntheticEvent<HTMLAnchorElement>) => {
+            const link = event.currentTarget;
             const href = await rawRenderProject(
                 project,
                 colorSelection,
@@ -37,11 +37,11 @@ export function Export({ project }: Props) {
                 `${height}${units}`
             );
 
-            event.currentTarget.href = href;
+            link.href = href;
             if (colorSelection === 'color') {
-                event.currentTarget.download = `${project.name}.svg`;
+                link.download = `${project.name}.svg`;
             } else {
-                event.currentTarget.download = `${project.name} (${colorSelection}).svg`;
+                link.download = `${project.name} (${colorSelection}).svg`;
             }
         },
         [project, units, height, width, showLabels, colorSelection]
