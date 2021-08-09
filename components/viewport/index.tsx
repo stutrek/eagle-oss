@@ -54,6 +54,7 @@ export const useViewport = (allowScroll = true) => {
     const [minZoom, setMinZoom] = useState(1);
     const [originalHeight, setOriginalHeight] = useState(0);
     const [originalWidth, setOriginalWidth] = useState(0);
+    const [resetter, setResetter] = useState(0);
 
     const [outerEl, setOuterEl] = useState<HTMLDivElement>();
     const [innerEl, setInnerEl] = useState<HTMLDivElement>();
@@ -76,83 +77,77 @@ export const useViewport = (allowScroll = true) => {
             if (!innerEl || !outerEl) {
                 return;
             }
-            const [centerLeftRatio, centerTopRatio] = forceCenter
-                ? [0.5, 0.5]
-                : calculateCenterRatio(
-                      outerEl,
-                      originalWidth,
-                      originalHeight,
-                      zoom
-                  );
+            innerSetZoom((zoom) => {
+                const [centerLeftRatio, centerTopRatio] = forceCenter
+                    ? [0.5, 0.5]
+                    : calculateCenterRatio(
+                          outerEl,
+                          originalWidth,
+                          originalHeight,
+                          zoom
+                      );
 
-            const viewportWidth = outerEl.offsetWidth;
-            const viewportHeight = outerEl.offsetHeight;
+                const viewportWidth = outerEl.offsetWidth;
+                const viewportHeight = outerEl.offsetHeight;
 
-            const scaledWidth = originalWidth * newZoom;
-            const scaledHeight = originalHeight * newZoom;
+                const scaledWidth = originalWidth * newZoom;
+                const scaledHeight = originalHeight * newZoom;
 
-            let scrollTop = 0;
-            let scrollLeft = 0;
-            let marginTop = 0;
-            let marginLeft = 0;
+                let scrollTop = 0;
+                let scrollLeft = 0;
+                let marginTop = 0;
+                let marginLeft = 0;
 
-            if (scaledWidth > viewportWidth) {
-                const minCenterRatio = viewportWidth / 2 / scaledWidth;
-                const maxCenterRatio = 1 - minCenterRatio;
+                if (scaledWidth > viewportWidth) {
+                    const minCenterRatio = viewportWidth / 2 / scaledWidth;
+                    const maxCenterRatio = 1 - minCenterRatio;
 
-                if (centerLeftRatio > maxCenterRatio) {
-                    scrollLeft = scaledWidth - viewportWidth;
-                } else if (centerLeftRatio < minCenterRatio) {
-                    scrollLeft = 0;
-                } else {
-                    scrollLeft =
-                        (scaledWidth - viewportWidth) * centerLeftRatio;
+                    if (centerLeftRatio > maxCenterRatio) {
+                        scrollLeft = scaledWidth - viewportWidth;
+                    } else if (centerLeftRatio < minCenterRatio) {
+                        scrollLeft = 0;
+                    } else {
+                        scrollLeft =
+                            (scaledWidth - viewportWidth) * centerLeftRatio;
+                    }
                 }
-            }
-            if (scaledWidth < viewportWidth) {
-                marginLeft = (viewportWidth - scaledWidth) * centerLeftRatio;
-            }
+                if (scaledWidth < viewportWidth) {
+                    marginLeft =
+                        (viewportWidth - scaledWidth) * centerLeftRatio;
+                }
 
-            if (scaledHeight > viewportHeight) {
-                scrollTop = (scaledHeight - viewportHeight) * centerTopRatio;
-            }
-            if (scaledHeight < viewportHeight) {
-                marginTop = (viewportHeight - scaledHeight) * centerTopRatio;
-            }
+                if (scaledHeight > viewportHeight) {
+                    scrollTop =
+                        (scaledHeight - viewportHeight) * centerTopRatio;
+                }
+                if (scaledHeight < viewportHeight) {
+                    marginTop =
+                        (viewportHeight - scaledHeight) * centerTopRatio;
+                }
 
-            setInnerStyles({
-                ...innerStyles,
-                transform: `scale(${newZoom})`,
-                transformOrigin: '0 0',
-                // height: scaledHeight,
-                // width: scaledWidth,
+                setInnerStyles({
+                    ...initialInnerStyles,
+                    transform: `scale(${newZoom})`,
+                    transformOrigin: '0 0',
+                    // height: scaledHeight,
+                    // width: scaledWidth,
+                });
+
+                setOuterStyles({
+                    ...initialOuterStyles,
+                    overflow: allowScroll ? 'auto' : 'hidden',
+                    visibility: 'visible',
+                    padding: `${marginTop}px 0 0 ${marginLeft}px`,
+                });
+
+                requestAnimationFrame(() => {
+                    outerEl.scrollTo(scrollLeft, scrollTop);
+                });
+
+                return newZoom;
             });
-
-            setOuterStyles({
-                ...outerStyles,
-                overflow: allowScroll ? 'auto' : 'hidden',
-                visibility: 'visible',
-                padding: `${marginTop}px 0 0 ${marginLeft}px`,
-            });
-
-            requestAnimationFrame(() => {
-                outerEl.scrollTo(scrollLeft, scrollTop);
-            });
-
-            innerSetZoom(newZoom);
         },
-        [
-            innerEl,
-            outerEl,
-            originalWidth,
-            originalHeight,
-            innerStyles,
-            setInnerStyles,
-            outerStyles,
-            setOuterStyles,
-            allowScroll,
-            zoom,
-        ]
+        [innerEl, outerEl, originalWidth, originalHeight, allowScroll]
     );
 
     useEffect(() => {
@@ -165,7 +160,7 @@ export const useViewport = (allowScroll = true) => {
 
         setOriginalHeight(contentHeight);
         setOriginalWidth(contentWidth);
-    }, [outerEl, innerEl]);
+    }, [outerEl, innerEl, resetter]);
 
     useEffect(() => {
         if (!outerEl) {
@@ -182,12 +177,22 @@ export const useViewport = (allowScroll = true) => {
         setZoom(calculatedZoom, true);
     }, [originalWidth, originalHeight, outerEl, setZoom]);
 
+    const reset = useCallback(() => {
+        setInnerStyles(initialInnerStyles);
+        setOuterStyles((outerStyles) => ({
+            ...outerStyles,
+            visibility: 'hidden',
+        }));
+        setResetter((resetter) => resetter + 1);
+    }, []);
+
     return {
         outerProps: { ref: outerRef, style: outerStyles },
         innerProps: { ref: innerRef, style: innerStyles },
         zoom,
         minZoom,
         setZoom,
+        reset,
     };
 };
 

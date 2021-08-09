@@ -1,5 +1,5 @@
 import chroma from 'chroma-js';
-import React, { SyntheticEvent, useMemo } from 'react';
+import React, { SyntheticEvent, useCallback, useMemo } from 'react';
 import { Dropdown, Icon } from 'semantic-ui-react';
 import { Glass } from '../../../data/types';
 import { ProjectMethods } from '../../../hooks/useProject';
@@ -27,12 +27,9 @@ export const GlassRow = ({
     editorMethods,
     projectMethods,
 }: Props) => {
-    const selectGlass = useMemo(
-        () => () => {
-            editorMethods.selectGlass(glass);
-        },
-        [glass, editorMethods]
-    );
+    const selectGlass = useCallback(() => {
+        editorMethods.selectGlass(glass);
+    }, [glass, editorMethods]);
 
     const handleChange = useMemo(
         () =>

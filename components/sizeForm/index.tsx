@@ -45,7 +45,6 @@ export function useSizeForm(
     );
     const receiveHeight = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
-            console.log('got height');
             const newHeight = +event.currentTarget.value;
             setHeight(newHeight);
 

@@ -98,8 +98,6 @@ export function SaveForm({
         preliminaryProject.ppi
     );
 
-    console.log({ height, width, units });
-
     useEffect(() => {
         setDisplayWidth(`${width}${units}`);
     }, [width, units, setDisplayWidth]);

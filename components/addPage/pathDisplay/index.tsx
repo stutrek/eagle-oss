@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { keyBy } from 'lodash';
 import chroma from 'chroma-js';
 import { PreliminaryProject, PreliminaryShape } from '../../../data/types';
@@ -60,6 +60,11 @@ export function PathDisplay({
         [colors, colorOption, size]
     );
     const viewport = useViewport();
+
+    useEffect(() => {
+        viewport.reset();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [displayWidth, displayHeight]);
 
     if (preliminaryProject && colors) {
         const { shapes } = preliminaryProject;

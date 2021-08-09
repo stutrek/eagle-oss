@@ -55,7 +55,8 @@ export const useEditorState = (projectId: string | undefined) => {
         if (state !== initialState) {
             methods.reset();
         }
-    }, [projectId, state, methods]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [projectId]);
 
     return [state, methods] as const;
 };
