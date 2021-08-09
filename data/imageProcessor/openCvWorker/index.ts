@@ -3,7 +3,7 @@ import { ModuleThread, spawn, Thread, Worker } from 'threads';
 import { OpenCvWorkerType } from './worker';
 
 export const useOpenCvWorker = () => {
-    let workerPromiseRef = useRef<Promise<ModuleThread<OpenCvWorkerType>>>();
+    const workerPromiseRef = useRef<Promise<ModuleThread<OpenCvWorkerType>>>();
 
     const worker = useMemo(() => {
         const startWorker = () => {

@@ -31,8 +31,8 @@ async function traceImageBitmap(
 
             const shapes: paper.CompoundPath[] = [];
             for (const path of pathlist) {
-                let firstPoint = path.curve.c[path.curve.c.length - 1];
-                let parentPath = shapes.find((p) =>
+                const firstPoint = path.curve.c[path.curve.c.length - 1];
+                const parentPath = shapes.find((p) =>
                     p.contains(new paper.Point(firstPoint.x, firstPoint.y))
                 );
                 const compoundPath = new paper.CompoundPath(

@@ -1,20 +1,18 @@
-import React, { useLayoutEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import styles from './editor.module.css';
-import { useAltKey } from './useAltKey';
+import styles from '../../components/editPage/editor.module.css';
+import { useAltKey } from '../../components/editPage/useAltKey';
 
-import useMinZoom from './useMinZoom';
 import { useProject } from '../../hooks/useProject';
 import { HeaderLayout } from '../../components/layout';
 import { Header } from '../../components/header';
-import { Sidebar } from './sidebar/sidebar';
+import { Sidebar } from '../../components/editPage/sidebar/sidebar';
 import { PieceClickCallback, ProjectView } from '../../components/project';
-import { useOnOffMachine } from '../../hooks/useOnOffMachine';
-import { useEditorState } from './useEditorState';
-import Link from 'next/link';
+import { useEditorState } from '../../components/editPage/useEditorState';
 import { useViewport } from '../../components/viewport';
-import { Toolbar } from './toolbar';
+import { Toolbar } from '../../components/editPage/toolbar';
 
 interface Params {
     projectId: number;

@@ -3,7 +3,7 @@ import { ModuleThread, spawn, Thread, Worker } from 'threads';
 import { PotraceWorker } from './worker';
 
 export const usePotraceWorker = () => {
-    let workerPromiseRef = useRef<Promise<ModuleThread<PotraceWorker>>>();
+    const workerPromiseRef = useRef<Promise<ModuleThread<PotraceWorker>>>();
 
     const worker = useMemo(() => {
         const startWorker = () => {

@@ -21,8 +21,10 @@ export const NoneGlassRow = ({ editorState, editorMethods }: Props) => {
         [editorMethods]
     );
 
-    let isSelected = editorState.selection === undefined;
-    let className = isSelected ? styles.glassSelected : styles.glassNotSelected;
+    const isSelected = editorState.selection === undefined;
+    const className = isSelected
+        ? styles.glassSelected
+        : styles.glassNotSelected;
 
     return (
         <tr className={className} onClick={selectGlass}>

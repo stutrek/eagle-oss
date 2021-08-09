@@ -17,7 +17,6 @@ type Props = {
 interface MenuItem {
     key: string;
     text: string;
-    onClick: Function;
     icon?: string;
 }
 
@@ -45,7 +44,7 @@ export const GlassRow = ({
         () =>
             (event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                 const target = event.target as HTMLInputElement;
-                let newGlass = {
+                const newGlass = {
                     ...glass,
                     [target.name]: target.value,
                 };
@@ -88,8 +87,10 @@ export const GlassRow = ({
         [projectMethods, glass]
     );
 
-    let isSelected = editorState.selection === glass;
-    let className = isSelected ? styles.glassSelected : styles.glassNotSelected;
+    const isSelected = editorState.selection === glass;
+    const className = isSelected
+        ? styles.glassSelected
+        : styles.glassNotSelected;
 
     const color = colorToHex(glass.color);
 

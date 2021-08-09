@@ -4,7 +4,7 @@ export type ColorControlOption = 'white' | 'random' | 'location' | 'original';
 
 type ColorControlsProps = {
     colorOption: ColorControlOption;
-    setColorOption: (option: ColorControlOption) => any;
+    setColorOption: (option: ColorControlOption) => unknown;
 };
 
 export const ColorControls = ({

@@ -18,17 +18,17 @@ type InternalPreliminaryColor = {
 };
 
 const calculateLabelLocation = (path: string) => {
-    let segmentStrings = path
+    const segmentStrings = path
         .split('M')
         .filter((s) => s)
         .map((s) => 'M' + s);
 
-    let segments = segmentStrings.map((segment) => {
-        let commands = makeAbsolute(parseSVG(segment)) as MoveToCommand[];
-        let points = commands.map((p) => [p.x, p.y]);
+    const segments = segmentStrings.map((segment) => {
+        const commands = makeAbsolute(parseSVG(segment)) as MoveToCommand[];
+        const points = commands.map((p) => [p.x, p.y]);
         return points;
     });
-    let poleOfInaccessibility: [number, number] = polylabel(segments);
+    const poleOfInaccessibility: [number, number] = polylabel(segments);
     return poleOfInaccessibility;
 };
 
@@ -91,7 +91,7 @@ export const createPreliminaryProject = (
         );
 
         let color: InternalPreliminaryColor | undefined;
-        let chromaColor = chroma(
+        const chromaColor = chroma(
             averageColor[0],
             averageColor[1],
             averageColor[2]

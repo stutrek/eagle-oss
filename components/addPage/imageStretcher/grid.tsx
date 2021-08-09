@@ -1,7 +1,7 @@
 import {
     Point,
     StretchOptions,
-} from '../../../../data/imageProcessor/useBitmapImport';
+} from '../../../data/imageProcessor/useBitmapImport';
 
 type Props = {
     points: StretchOptions;

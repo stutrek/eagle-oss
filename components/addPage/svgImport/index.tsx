@@ -2,17 +2,13 @@ import { useState } from 'react';
 
 import { PathDisplay } from '../pathDisplay';
 
-import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
-import {
-    HeaderLayout,
-    ContentWithSidebar,
-    Sidebar,
-} from '../../../../components/layout';
-import { Header } from '../../../../components/header';
+import { ImageProcessorReturn } from '../../../data/imageProcessor/useImageProcessor';
+import { HeaderLayout, ContentWithSidebar, Sidebar } from '../../layout';
+import { Header } from '../../header';
 
 import { ColorControlOption, ColorControls } from '../colorControls';
 
-import styles from '../../add.module.css';
+import styles from '../add.module.css';
 import { SaveForm } from '../saveForm';
 
 type Props = {
@@ -66,7 +62,7 @@ export const DisplaySvg = ({
     );
 };
 
-function getClassName(thing: any) {
+function getClassName(thing: unknown) {
     if (thing) {
         return styles.done;
     }

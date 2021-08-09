@@ -165,7 +165,7 @@ export const useViewport = (allowScroll = true) => {
 
         const widthRatio = viewportWidth / originalWidth;
         const heightRatio = viewportHeight / originalHeight;
-        let calculatedZoom = Math.min(widthRatio, heightRatio);
+        const calculatedZoom = Math.min(widthRatio, heightRatio);
         setMinZoom(calculatedZoom);
 
         setZoom(calculatedZoom, true);

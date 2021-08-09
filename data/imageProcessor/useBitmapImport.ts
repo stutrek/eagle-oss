@@ -93,7 +93,7 @@ export const useBitmapImport = (file: File | undefined) => {
     useCanceledEffect(
         function handleDistortion() {
             if (imageBitmap) {
-                let originalStretchOptions = {
+                const originalStretchOptions = {
                     topLeft: [0, 0],
                     topRight: [imageBitmap.width, 0],
                     bottomRight: [imageBitmap.width, imageBitmap.height],

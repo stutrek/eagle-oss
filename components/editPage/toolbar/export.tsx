@@ -1,16 +1,6 @@
-import { ChangeEvent, SyntheticEvent, useCallback, useState } from 'react';
-import { render } from 'react-dom';
-import {
-    Button,
-    Checkbox,
-    Dropdown,
-    DropdownProps,
-    Icon,
-    Input,
-    Label,
-} from 'semantic-ui-react';
+import { SyntheticEvent, useCallback, useState } from 'react';
+import { Button, Checkbox, Icon } from 'semantic-ui-react';
 import { Color, Grayscale, Outlines } from '../../../components/genericProject';
-import { ProjectView } from '../../../components/project';
 import { useSizeForm } from '../../../components/sizeForm';
 import { rawRenderProject } from '../../../data/projectString';
 import { Project } from '../../../data/types';

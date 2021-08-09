@@ -2,12 +2,12 @@ import { Project, Color } from 'paper';
 
 export function coloredSVGToWhite(jsonString: string, size: [number, number]) {
     const canvas = new OffscreenCanvas(size[0], size[1]);
-    let project = new Project(canvas as unknown as HTMLCanvasElement);
+    const project = new Project(canvas as unknown as HTMLCanvasElement);
     project.importJSON(jsonString);
 
     // if it has no alpha the shapes behind it are likely important
     // if it's black it might be some sort of a traced outline.
-    let coloredItems = project.getItems({
+    const coloredItems = project.getItems({
         recursive: true,
         match: (item: paper.CompoundPath) => {
             const color = item.fillColor;

@@ -6,7 +6,7 @@ interface LabelProps {
     piece: Piece;
     glass: Glass;
     handlePieceClick: (event: SyntheticEvent<Element>) => void;
-    styles: any;
+    styles: { [index: string]: string };
     numberSize: number;
     pieceColor: string;
 }
@@ -19,7 +19,7 @@ export const Label = ({
     numberSize,
     pieceColor,
 }: LabelProps) => {
-    let title = glass ? glass.title : '';
+    const title = glass ? glass.title : '';
     const brightness = chroma(pieceColor).luminance();
     const isDark = brightness < 0.4;
 
@@ -35,7 +35,8 @@ export const Label = ({
     }
     const labelSize = numberSize / 4;
 
-    let { x, y } = piece.labelCenter;
+    const { x } = piece.labelCenter;
+    let { y } = piece.labelCenter;
     y = y - (titleLines.length - 1) * (numberSize / 8);
 
     return (

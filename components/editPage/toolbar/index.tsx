@@ -23,11 +23,11 @@ export function Toolbar({
     projectMethods,
 }: Props) {
     const zoomIn = useCallback(() => {
-        let nextLevel = Math.floor(viewport.zoom * 10 + 1) / 10;
+        const nextLevel = Math.floor(viewport.zoom * 10 + 1) / 10;
         viewport.setZoom(nextLevel);
     }, [viewport.zoom]);
     const zoomOut = useCallback(() => {
-        let nextLevel = Math.max(
+        const nextLevel = Math.max(
             viewport.minZoom,
             Math.floor(viewport.zoom * 10 - 1) / 10
         );

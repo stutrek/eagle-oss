@@ -1,6 +1,10 @@
-import React, { useCallback, SyntheticEvent, useMemo } from 'react';
+import React, {
+    useCallback,
+    SyntheticEvent,
+    useMemo,
+    CSSProperties,
+} from 'react';
 import { Glass, Project } from '../../data/types';
-import { useViewport } from '../viewport';
 import { LicenseText } from './licenseText';
 
 import { PieceView } from './piece';
@@ -22,7 +26,7 @@ interface ProjectProps {
     nightMode?: boolean;
     colorOverride?: string;
     grayscale?: boolean;
-    inlineStyles?: any;
+    inlineStyles?: CSSProperties;
     strokeWidth?: string;
     altIsDown?: boolean;
     displayHeight?: string;
@@ -30,7 +34,7 @@ interface ProjectProps {
 }
 
 export const ProjectView = ({
-    onPieceClick = (event: SyntheticEvent<Element>, pieceId: string) => {},
+    onPieceClick = () => {},
     className = '',
     showLabels = false,
     interactive = true,
@@ -51,7 +55,7 @@ export const ProjectView = ({
     const handlePieceClick = useCallback(
         (event: SyntheticEvent<Element>) => {
             if (onPieceClick) {
-                let id = event.currentTarget.getAttribute('data-id');
+                const id = event.currentTarget.getAttribute('data-id');
                 if (id) {
                     onPieceClick(event, id);
                 }
@@ -71,7 +75,7 @@ export const ProjectView = ({
         [glasses]
     );
 
-    let numberSize = project.ppi / 16;
+    const numberSize = project.ppi / 16;
     return (
         <svg
             id="svg"

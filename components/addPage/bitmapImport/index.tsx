@@ -1,16 +1,12 @@
-import { CanvasWithBitmap } from '../../../../components/CanvasWithBitmap';
-import { Header } from '../../../../components/header';
-import {
-    ContentWithSidebar,
-    HeaderLayout,
-    Sidebar,
-} from '../../../../components/layout';
-import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
+import { CanvasWithBitmap } from '../../CanvasWithBitmap';
+import { Header } from '../../header';
+import { ContentWithSidebar, HeaderLayout, Sidebar } from '../../layout';
+import { ImageProcessorReturn } from '../../../data/imageProcessor/useImageProcessor';
 import { ColorControlOption, ColorControls } from '../colorControls';
 import { ImageStretcher } from '../imageStretcher';
 import { PathDisplay } from '../pathDisplay';
 
-import styles from '../../add.module.css';
+import styles from '../add.module.css';
 import { useState } from 'react';
 import { SaveForm } from '../saveForm';
 
@@ -18,7 +14,7 @@ type Props = {
     imageProcessor: ImageProcessorReturn;
 };
 
-function getClassName(thing: any) {
+function getClassName(thing: unknown) {
     if (thing) {
         return styles.done;
     }

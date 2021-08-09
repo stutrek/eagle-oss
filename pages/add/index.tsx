@@ -1,24 +1,7 @@
-/* process
-
-1. Import image
-	- svg: string
-	- bitmap: blob
-
-2. Send image for processing
-	- svg: make it b&w
-	- bitmap: blur, etc.
-
-3. Outline it
-4. Flush turds
-5. Use small squares to break shapes
-6. Find centers          
-7. Show to user
-*/
-
-import { UploadButton } from './components/UploadButton';
+import { UploadButton } from '../../components/addPage/UploadButton';
 import { useImageProcessor } from '../../data/imageProcessor/useImageProcessor';
-import { BitmapImport } from './components/bitmapImport';
-import { SvgImport } from './components/svgImport';
+import { BitmapImport } from '../../components/addPage/bitmapImport';
+import { SvgImport } from '../../components/addPage/svgImport';
 import { HeaderLayout } from '../../components/layout';
 import { Header } from '../../components/header';
 

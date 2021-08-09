@@ -2,24 +2,24 @@ import router from 'next/router';
 import { FocusEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
-import { useSizeForm } from '../../../../components/sizeForm';
 
-import { getDb } from '../../../../data/db';
-import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
-import { labelPieces } from '../../../../data/labelPieces';
+import { getDb } from '../../../data/db';
+import { ImageProcessorReturn } from '../../../data/imageProcessor/useImageProcessor';
+import { labelPieces } from '../../../data/labelPieces';
 import {
     Glass,
     Piece,
     Point,
     PreliminaryProject,
     Project,
-} from '../../../../data/types';
+} from '../../../data/types';
+import { useSizeForm } from '../../sizeForm';
 
 type Props = {
     preliminaryProject: PreliminaryProject;
     imageProcessor: ImageProcessorReturn;
-    setDisplayWidth: (newDisplayWidth: string) => any;
-    setDisplayHeight: (newDisplayHeight: string) => any;
+    setDisplayWidth: (newDisplayWidth: string) => unknown;
+    setDisplayHeight: (newDisplayHeight: string) => unknown;
 };
 
 function arrayToPoint(arr: [number, number]): Point {

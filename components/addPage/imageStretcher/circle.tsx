@@ -1,8 +1,8 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Point,
     UseImageBitmapReturn,
-} from '../../../../data/imageProcessor/useBitmapImport';
+} from '../../../data/imageProcessor/useBitmapImport';
 
 type CircleProps = {
     side: keyof UseImageBitmapReturn['stretchOptions'];

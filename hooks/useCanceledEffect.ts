@@ -2,7 +2,7 @@ import { DependencyList, useEffect } from 'react';
 
 export function useCanceledEffect<T>(
     promiseFn: () => Promise<T> | T,
-    resultFn: (result: T) => any,
+    resultFn: (result: T) => unknown,
     dependencies: DependencyList
 ) {
     useEffect(() => {

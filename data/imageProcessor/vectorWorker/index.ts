@@ -4,7 +4,7 @@ import { createPreliminaryProject } from './createPreliminaryProject';
 import { PaperWorkerType } from './worker';
 
 export function useVectorWorker() {
-    let workerPromiseRef = useRef<Promise<ModuleThread<PaperWorkerType>>>();
+    const workerPromiseRef = useRef<Promise<ModuleThread<PaperWorkerType>>>();
 
     const worker = useMemo(() => {
         const startWorker = () => {

@@ -6,7 +6,6 @@ import {
     Input,
     Label,
 } from 'semantic-ui-react';
-import { Project } from '../../data/types';
 import styles from './sizeForm.module.css';
 
 const unitOptions = [
@@ -42,7 +41,7 @@ export function useSizeForm(
                 setAspectRatio(newWidth / height);
             }
         },
-        [height, width, locked, aspectRatio]
+        [height, locked, aspectRatio]
     );
     const receiveHeight = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +59,7 @@ export function useSizeForm(
                 setAspectRatio(width / newHeight);
             }
         },
-        [height, width, locked, aspectRatio]
+        [width, locked, aspectRatio]
     );
 
     const receiveUnits = useCallback(

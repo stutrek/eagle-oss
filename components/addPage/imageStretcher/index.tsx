@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { CanvasWithBitmap } from '../../../../components/CanvasWithBitmap';
-import { ImageProcessorReturn } from '../../../../data/imageProcessor/useImageProcessor';
+import { CanvasWithBitmap } from '../../CanvasWithBitmap';
+import { ImageProcessorReturn } from '../../../data/imageProcessor/useImageProcessor';
 import {
     Point,
     UseImageBitmapReturn,
-} from '../../../../data/imageProcessor/useBitmapImport';
+} from '../../../data/imageProcessor/useBitmapImport';
 
 import { Circle } from './circle';
 
 import styles from './imageStretcher.module.css';
 import { Grid } from './grid';
-import { useViewport } from '../../../../components/viewport';
+import { useViewport } from '../../../components/viewport';
 
 type Props = {
     imageProcessor: ImageProcessorReturn;
@@ -43,7 +43,7 @@ export const ImageStretcher = ({ imageProcessor }: Props) => {
                 applyScaledDrag(stretchState[side], value, viewport.zoom)
             );
         },
-        [stretchState, viewport.zoom]
+        [stretchState, viewport.zoom, setCorner]
     );
 
     const setInterimCorner = useCallback<UseImageBitmapReturn['setCorner']>(

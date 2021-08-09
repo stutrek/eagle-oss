@@ -44,7 +44,7 @@ async function adaptiveThreshold(
         8
     );
 
-    let ksize = new cv.Size(1, 1);
+    const ksize = new cv.Size(1, 1);
     const blurDestination = new cv.Mat();
     cv.GaussianBlur(
         thesholdDestination,
@@ -91,21 +91,21 @@ async function distort(
         average(bottomLeft[1] - topLeft[1], bottomRight[1] - topRight[1])
     );
 
-    let dst = new cv.Mat();
-    let dsize = new cv.Size(newWidth, newHeight);
+    const dst = new cv.Mat();
+    const dsize = new cv.Size(newWidth, newHeight);
 
     // (data32F[0], data32F[1]) is the first point
     // (data32F[2], data32F[3]) is the sescond point
     // (data32F[4], data32F[5]) is the third point
     // (data32F[6], data32F[7]) is the fourth point
-    let srcTri = cv.matFromArray(
+    const srcTri = cv.matFromArray(
         4,
         1,
         cv.CV_32FC2,
         [...topLeft, ...topRight, ...bottomLeft, ...bottomRight]
         //[56, 65, 368, 52, 28, 387, 389, 390]
     );
-    let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [
+    const dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [
         0,
         0,
         newWidth,
@@ -115,7 +115,7 @@ async function distort(
         newWidth,
         newHeight,
     ]);
-    let M = cv.getPerspectiveTransform(srcTri, dstTri);
+    const M = cv.getPerspectiveTransform(srcTri, dstTri);
     // You can try more different parameters
     cv.warpPerspective(
         src,

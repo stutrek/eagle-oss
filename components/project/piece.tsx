@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useMemo } from 'react';
+import React, { CSSProperties, SyntheticEvent, useMemo } from 'react';
 import { Label } from './label';
 import { Glass, Piece } from '../../data/types';
 import chroma from 'chroma-js';
@@ -7,7 +7,7 @@ interface PieceProps {
     piece: Piece;
     glass?: Glass;
     handlePieceClick: (event: SyntheticEvent<Element>) => void;
-    styles: any;
+    styles: { [index: string]: string };
     numberSize: number;
     showLabels: boolean;
     nightMode: boolean;
@@ -17,7 +17,7 @@ interface PieceProps {
 }
 
 export const PieceView = (props: PieceProps) => {
-    let {
+    const {
         piece,
         glass,
         handlePieceClick,
@@ -34,7 +34,7 @@ export const PieceView = (props: PieceProps) => {
         if (!glass) {
             return '#ffffff';
         }
-        let colorToUse =
+        const colorToUse =
             nightMode && glass.nightColor ? glass.nightColor : glass.color;
         let color: chroma.Color;
         if (Array.isArray(colorToUse)) {
@@ -51,7 +51,7 @@ export const PieceView = (props: PieceProps) => {
         }
     }, [glass, colorOverride, nightMode, grayscale]);
 
-    let strokeWidth = glass ? '1px' : '0px';
+    const strokeWidth = glass ? '1px' : '0px';
     let className = glass ? styles.piece : styles.emptySpace;
 
     if (highlight) {
