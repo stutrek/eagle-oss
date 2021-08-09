@@ -49,3 +49,8 @@
 .content > div:nth-child(2) {
     left: 50%;
 }
+
+.importDisplay {
+    position: relative;
+    flex: 1;
+}

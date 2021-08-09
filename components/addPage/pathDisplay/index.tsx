@@ -90,9 +90,11 @@ export function PathDisplay({
         <div {...viewport.outerProps}>
             <div {...viewport.innerProps}>
                 <svg
-                    width={size[0] / devicePixelRatio}
-                    height={size[1] / devicePixelRatio}
+                    width={displayWidth || size[0] / devicePixelRatio}
+                    height={displayHeight || size[1] / devicePixelRatio}
                     viewBox={`0 0 ${size[0]} ${size[1]}`}
+                    className={styles.svgContainer}
+                    preserveAspectRatio="none"
                 >
                     {paths.map((path) => (
                         <path key={path} d={path} />
