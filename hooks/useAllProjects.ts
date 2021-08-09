@@ -4,7 +4,7 @@ import { Project } from '../data/types';
 
 export const useAllProjects = (
     sort: keyof Project = 'dateCreated',
-    direction: 'desc' | 'asc' = 'desc'
+    direction: 'desc' | 'asc' = 'asc'
 ) => {
     return useLiveQuery(
         async () => {
