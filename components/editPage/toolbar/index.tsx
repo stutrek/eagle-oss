@@ -6,6 +6,9 @@ import { Project } from '../../../data/types';
 import { ProjectMethods } from '../../../hooks/useProject';
 import { EditorState, EditorStateMethods } from '../useEditorState';
 import { Export } from './export';
+import { Info } from './info';
+
+import styles from './toolbar.module.css';
 
 type Props = {
     editorState: EditorState;
@@ -27,6 +30,7 @@ export function Toolbar({
         viewport.setZoom(nextLevel);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewport.zoom]);
+
     const zoomOut = useCallback(() => {
         const nextLevel = Math.max(
             viewport.minZoom,
@@ -38,6 +42,22 @@ export function Toolbar({
 
     return (
         <>
+            <h1 className={styles.title}>{project.name}</h1>
+            <div>
+                <Popup
+                    trigger={
+                        <Icon name="info circle" size="big" color="grey" />
+                    }
+                    position="bottom center"
+                    on="click"
+                    hoverable
+                    flowing
+                >
+                    <Info project={project} projectMethods={projectMethods} />
+                </Popup>
+            </div>
+            <hr />
+            <div data-flex />
             <div>
                 <Icon name="sun" size="large" />
                 <Checkbox

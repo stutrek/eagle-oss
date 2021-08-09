@@ -16,3 +16,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.lockContainer :global(button.ui.icon.basic.circular) {
+    background-color: white !important;
+}

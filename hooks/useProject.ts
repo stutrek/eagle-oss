@@ -11,6 +11,7 @@ type Methods = {
         piece: Piece,
         glass: Glass | undefined
     ) => Promise<Project>;
+    saveProject: (project: Project) => Promise<Project>;
 };
 
 type State =
@@ -31,8 +32,6 @@ const initialState = {
     project: undefined,
     isLoading: true,
 } as const;
-
-const loading = 'loading' as const;
 
 const createMethods = (
     project: Project,
@@ -103,6 +102,7 @@ const createMethods = (
 
             return saveProject(updated);
         },
+        saveProject,
     };
 };
 

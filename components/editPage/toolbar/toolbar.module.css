@@ -1,3 +1,10 @@
+.title {
+    max-width: 20%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .export {
     width: 300px;
 }
@@ -12,4 +19,17 @@
 }
 .exportOptions button svg {
     width: 55px;
+}
+
+.infoContainer {
+    width: 330px;
+    margin: 0 -15px -10px;
+}
+
+.infoPane {
+    padding: 15px;
+}
+
+.infoContainer :global(.ui.attached.tabular.menu) {
+    padding: 0 10px;
 }
