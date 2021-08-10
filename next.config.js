@@ -7,12 +7,14 @@ module.exports = {
             path: false,
             crypto: false,
         };
-        // config.plugins.push(
-        //     new WorkerPlugin({
-        //         // use "self" as the global object when receiving hot updates.
-        //         globalObject: 'self',
-        //     })
-        // );
         return config;
+    },
+    async rewrites() {
+        return [
+            {
+                source: '/i/:path*',
+                destination: 'https://r.lr-in.com/i/:path*',
+            },
+        ];
     },
 };

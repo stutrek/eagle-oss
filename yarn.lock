@@ -7307,6 +7307,16 @@ lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
+logrocket-react@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/logrocket-react/-/logrocket-react-4.0.1.tgz#e8e5405ee5f47f2c25b511931e360713a623f927"
+  integrity sha512-TbQELEaDQspKHH0XylAeVZpsHoAcz+sIEG/enUQiH+LoYLW7cMK000XIS6W3Zz14zS0V2Db+KyKi8ivBpGYkzg==
+
+logrocket@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-2.0.0.tgz#331065873429cf70fb7cf84b676900baf9988a4e"
+  integrity sha512-O+YdrtpQn7oOmrxCqOyUcaB1+ONrhyJuB9CX57PQ0JJzNrYstxd0Oyg6UdLisA7UjNmwTr6fixMO3WOysDTFFA==
+
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
