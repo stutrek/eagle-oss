@@ -39,12 +39,16 @@ const createMethods = (
     setState: (newState: State) => void
 ): Methods => {
     const saveProject = async (updated: Project) => {
+        const updatedWithDateToo = {
+            ...updated,
+            dateModified: new Date(),
+        };
         setState({
-            project: updated,
+            project: updatedWithDateToo,
             isLoading: false,
         });
         const db = getDb();
-        db.projects.put(updated);
+        db.projects.put(updatedWithDateToo);
         return updated;
     };
     return {

@@ -69,18 +69,22 @@ function ProjectInfo({ project, projectMethods }: Props) {
             <hr />
             <Table celled>
                 <Table.Body>
-                    <Table.Row>
-                        <Table.Cell>Date Created</Table.Cell>
-                        <Table.Cell>
-                            {project.dateCreated.toLocaleString()}
-                        </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>Last Edited</Table.Cell>
-                        <Table.Cell>
-                            {project.dateModified.toLocaleString()}
-                        </Table.Cell>
-                    </Table.Row>
+                    {project.dateCreated && (
+                        <Table.Row>
+                            <Table.Cell>Date Created</Table.Cell>
+                            <Table.Cell>
+                                {project.dateCreated.toLocaleString()}
+                            </Table.Cell>
+                        </Table.Row>
+                    )}
+                    {project.dateModified && (
+                        <Table.Row>
+                            <Table.Cell>Last Edited</Table.Cell>
+                            <Table.Cell>
+                                {project.dateModified.toLocaleString()}
+                            </Table.Cell>
+                        </Table.Row>
+                    )}
                     {project.copyright && (
                         <Table.Row>
                             <Table.Cell>Copyright</Table.Cell>
