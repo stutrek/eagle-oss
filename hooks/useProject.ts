@@ -138,6 +138,7 @@ export const useProject = (projectId: string | undefined) => {
                 isLoading: false,
             });
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projectId]);
 
     const methods = useMemo(() => {

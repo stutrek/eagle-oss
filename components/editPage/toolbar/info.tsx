@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Form, Input, Label, Tab, Table } from 'semantic-ui-react';
+import { Form, Tab, Table } from 'semantic-ui-react';
 import { Project } from '../../../data/types';
 import { ProjectMethods } from '../../../hooks/useProject';
 import { useSizeForm } from '../../sizeForm';
@@ -47,7 +47,7 @@ export function Info({ project, projectMethods }: Props) {
     );
 }
 
-function ProjectInfo({ project, projectMethods }: Props) {
+function ProjectInfo({ project }: Props) {
     const pieceCount = project.pieces.reduce(
         (acc, piece) => (piece.glass ? acc + 1 : acc),
         0

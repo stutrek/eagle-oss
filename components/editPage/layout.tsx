@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import styles from '../../components/editPage/editor.module.css';
 import { useAltKey } from '../../components/editPage/useAltKey';
