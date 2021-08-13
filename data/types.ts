@@ -18,7 +18,7 @@ export interface Bounds {
 export interface Glass {
     id: string;
     color: string | [number, number, number];
-    nightColor?: string;
+    nightColor?: string | [number, number, number];
     title: string;
 }
 
