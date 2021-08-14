@@ -5,7 +5,8 @@ import '../styles/globals.css';
 import 'semantic-ui-css/semantic.css';
 import '../styles/semantic-overrides.css';
 
-if (typeof window !== 'undefined') {
+if (!process.env.NEXT_PUBLIC_IS_DEV && typeof window !== 'undefined') {
+    console.log('starting logrocket');
     LogRocket.init('tzllk9/eagle', {
         serverURL: window.origin + '/i',
     });

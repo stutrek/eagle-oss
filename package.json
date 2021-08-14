@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 7000",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "storybook": "start-storybook -p 6006",
@@ -21,6 +21,7 @@
     "logrocket": "^2.0.0",
     "logrocket-react": "^4.0.1",
     "next": "^11.0.0",
+    "next-auth": "^3.28.0",
     "paper": "^0.12.15",
     "potrace-js": "^0.0.6",
     "preact": "^10.5.14",
@@ -56,6 +57,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.3.1",
+    "sqlite3": "^5.0.2",
     "typescript": "^4.3.2"
   }
 }
